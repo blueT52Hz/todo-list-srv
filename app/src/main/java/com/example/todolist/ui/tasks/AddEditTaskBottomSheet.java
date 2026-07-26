@@ -12,14 +12,15 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.bumptech.glide.Glide;
 import com.example.todolist.R;
 import com.example.todolist.data.Task;
 import com.example.todolist.data.Topic;
 import com.example.todolist.databinding.BottomsheetEditTaskBinding;
 import com.example.todolist.reminder.ReminderScheduler;
 import com.example.todolist.util.DateUtils;
+import com.example.todolist.util.ImagePaths;
 import com.example.todolist.util.ImageStorage;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.chip.Chip;
@@ -27,13 +28,14 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-/** Add or edit a task (title, topic, due date+time reminder, one image). */
-public class AddEditTaskBottomSheet extends BottomSheetDialogFragment {
+/** Add or edit a task (title, topic, due date+time reminder, multiple images). */
+public class AddEditTaskBottomSheet extends BottomSheetDialogFragment
+        implements AttachmentAdapter.Listener {
 
     private static final String ARG_ID = "task_id";
 
@@ -48,8 +50,11 @@ public class AddEditTaskBottomSheet extends BottomSheetDialogFragment {
     private boolean done = false;
     private Long selectedTopicId = null;
     private Long selectedDueAt = null;
-    private String imagePath = null;
-    private String oldImagePath = null;
+    /** Current attachment paths (edited). */
+    private final List<String> imagePaths = new ArrayList<>();
+    /** Paths that already existed when opening an edit — used to clean up removed files on save. */
+    private final List<String> originalPaths = new ArrayList<>();
+    private AttachmentAdapter attachAdapter;
 
     private final ActivityResultLauncher<String> picker =
         registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
@@ -85,10 +90,29 @@ public class AddEditTaskBottomSheet extends BottomSheetDialogFragment {
 
         vm.getTopics().observe(getViewLifecycleOwner(), this::buildTopicChips);
 
+        attachAdapter = new AttachmentAdapter(this);
+        b.attachRow.setLayoutManager(
+            new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        b.attachRow.setAdapter(attachAdapter);
+        attachAdapter.submit(imagePaths);
+
         b.rowDue.setOnClickListener(v -> pickDate());
         b.btnClearDue.setOnClickListener(v -> setDue(null));
-        b.attach.setOnClickListener(v -> picker.launch("image/*"));
         b.btnSave.setOnClickListener(v -> onSave());
+    }
+
+    // AttachmentAdapter.Listener
+    @Override
+    public void onAdd() {
+        picker.launch("image/*");
+    }
+
+    @Override
+    public void onRemove(String path) {
+        imagePaths.remove(path);
+        // A path added in this session (not part of the original task) is safe to delete now.
+        if (!originalPaths.contains(path)) ImageStorage.delete(path);
+        attachAdapter.submit(imagePaths);
     }
 
     private void prefill(Task t) {
@@ -96,11 +120,13 @@ public class AddEditTaskBottomSheet extends BottomSheetDialogFragment {
         createdAt = t.createdAt;
         done = t.done;
         selectedTopicId = t.topicId;
-        oldImagePath = t.imagePath;
-        imagePath = t.imagePath;
+        originalPaths.clear();
+        originalPaths.addAll(ImagePaths.split(t.imagePath));
+        imagePaths.clear();
+        imagePaths.addAll(originalPaths);
+        if (attachAdapter != null) attachAdapter.submit(imagePaths);
         b.etTitle.setText(t.title);
         setDue(t.dueAt);
-        if (t.imagePath != null) showPreview(t.imagePath);
         // re-check the matching topic chip if chips already built
         checkSelectedChip();
     }
@@ -184,16 +210,10 @@ public class AddEditTaskBottomSheet extends BottomSheetDialogFragment {
     private void onImagePicked(Uri uri) {
         ImageStorage.copyToInternal(requireContext(), uri, path -> {
             if (path != null && b != null) {
-                imagePath = path;
-                showPreview(path);
+                imagePaths.add(path);
+                attachAdapter.submit(imagePaths);
             }
         });
-    }
-
-    private void showPreview(String path) {
-        b.preview.setVisibility(View.VISIBLE);
-        b.attachPlaceholder.setVisibility(View.GONE);
-        Glide.with(this).load(new File(path)).centerCrop().into(b.preview);
     }
 
     private void onSave() {
@@ -206,12 +226,12 @@ public class AddEditTaskBottomSheet extends BottomSheetDialogFragment {
         t.title = title;
         t.topicId = selectedTopicId;
         t.dueAt = selectedDueAt;
-        t.imagePath = imagePath;
+        t.imagePath = ImagePaths.join(imagePaths);
         t.done = done;
 
-        // if the image was replaced during edit, delete the old file
-        if (oldImagePath != null && !oldImagePath.equals(imagePath)) {
-            ImageStorage.delete(oldImagePath);
+        // delete files that were part of the original task but removed during this edit
+        for (String original : originalPaths) {
+            if (!imagePaths.contains(original)) ImageStorage.delete(original);
         }
 
         if (editingId >= 0) {

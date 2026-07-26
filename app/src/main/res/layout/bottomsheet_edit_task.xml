@@ -106,30 +106,13 @@
             android:textColor="@color/muted_steel"
             android:textSize="14sp" />
 
-        <FrameLayout
-            android:id="@+id/attach"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/attach_row"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_dashed">
-
-            <ImageView
-                android:id="@+id/attach_placeholder"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/attachment"
-                android:src="@drawable/ic_add"
-                app:tint="@color/faint_steel" />
-
-            <ImageView
-                android:id="@+id/preview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/attachment"
-                android:scaleType="centerCrop"
-                android:visibility="gone" />
-        </FrameLayout>
+            android:clipToPadding="false"
+            android:scrollbars="none" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save"

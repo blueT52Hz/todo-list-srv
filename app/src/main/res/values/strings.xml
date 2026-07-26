@@ -13,6 +13,8 @@
     <string name="due_reminder">Due date &amp; reminder</string>
     <string name="attachment">Attachment</string>
     <string name="all">All</string>
+    <string name="notes">Notes</string>
+    <string name="add_photo">ADD</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="new_topic">New Topic</string>
