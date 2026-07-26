@@ -21,6 +21,42 @@
         <item name="android:paddingVertical">8dp</item>
     </style>
 
+    <!-- Date / category filter chip: white rounded pill with sage icon+text -->
+    <style name="FilterChipButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingHorizontal">14dp</item>
+        <item name="android:textColor">@color/muted_sage</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="cornerRadius">20dp</item>
+        <item name="strokeColor">@color/whisper_border</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="backgroundTint">@color/pure_surface</item>
+        <item name="rippleColor">@color/sage_wash</item>
+        <item name="iconSize">16dp</item>
+        <item name="iconPadding">4dp</item>
+        <item name="iconTint">@color/muted_sage</item>
+    </style>
+
+    <!-- One segment of the status segmented control -->
+    <style name="SegmentItem">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingVertical">10dp</item>
+        <item name="android:background">@drawable/bg_segment_item</item>
+        <item name="android:textColor">@color/nav_pill_color</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
     <!-- Rounded pill shape for the active nav item indicator -->
     <style name="ShapeAppearance.Nav.ActiveIndicator" parent="">
         <item name="cornerFamily">rounded</item>

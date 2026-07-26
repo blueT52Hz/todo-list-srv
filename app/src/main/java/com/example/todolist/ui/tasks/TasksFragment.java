@@ -100,14 +100,32 @@ public class TasksFragment extends Fragment implements TaskAdapter.Listener {
             updateClearVisibility();
         });
 
-        // Shared "clear filters" button — clears both date and category
+        // Status filter (all / not done / done) — segmented pill
+        View.OnClickListener statusClick = v -> {
+            int s = v.getId() == R.id.btn_status_pending ? 1
+                  : v.getId() == R.id.btn_status_done ? 2 : 0;
+            viewModel.setStatus(s);
+        };
+        binding.btnStatusAll.setOnClickListener(statusClick);
+        binding.btnStatusPending.setOnClickListener(statusClick);
+        binding.btnStatusDone.setOnClickListener(statusClick);
+        viewModel.getStatus().observe(getViewLifecycleOwner(), s -> {
+            int v = s != null ? s : 0;
+            binding.btnStatusAll.setSelected(v == 0);
+            binding.btnStatusPending.setSelected(v == 1);
+            binding.btnStatusDone.setSelected(v == 2);
+            updateClearVisibility();
+        });
+
+        // Shared "clear filters" button — clears date + category only.
+        // Status is a persistent view toggle, not cleared here.
         binding.btnClearFilters.setOnClickListener(v -> {
             viewModel.clearDate();
             viewModel.setCategories(Collections.emptySet());
         });
     }
 
-    /** Show the shared clear button whenever either the date or category filter is active. */
+    /** Show the shared clear button whenever the date or category filter is active. */
     private void updateClearVisibility() {
         if (binding == null) return;
         Set<Long> cats = viewModel.getCategories().getValue();
