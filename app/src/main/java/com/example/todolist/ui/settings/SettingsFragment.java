@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -23,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import com.example.todolist.R;
 import com.example.todolist.TodoApp;
 import com.example.todolist.databinding.FragmentSettingsBinding;
+import com.example.todolist.util.NotificationPrefs;
 import com.example.todolist.widget.TasksWidgetProvider;
 
 public class SettingsFragment extends Fragment {
@@ -37,6 +39,22 @@ public class SettingsFragment extends Fragment {
             updatePermissionCaption();
         });
 
+    /** Permission request triggered by turning the notifications switch on. */
+    private final ActivityResultLauncher<String> enableNotifPermission =
+        registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
+            if (granted) {
+                NotificationPrefs.setEnabled(requireContext(), true);
+            } else {
+                NotificationPrefs.setEnabled(requireContext(), false);
+                setSwitchChecked(false);
+                toast(getString(R.string.notif_permission_needed));
+            }
+            updatePermissionCaption();
+        });
+
+    private final CompoundButton.OnCheckedChangeListener notifToggleListener =
+        (btn, checked) -> onNotifToggle(checked);
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -49,11 +67,45 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         b.rowAddWidget.setOnClickListener(v -> requestPinWidget());
         b.rowTestNotification.setOnClickListener(v -> onTestNotification());
+        syncNotifSwitch();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        syncNotifSwitch();
+        updatePermissionCaption();
+    }
+
+    /** Reflect the stored toggle + current permission on the switch. */
+    private void syncNotifSwitch() {
+        setSwitchChecked(NotificationPrefs.isEnabled(requireContext()) && hasNotifPermission());
+    }
+
+    /** Set the switch state without triggering the toggle listener. */
+    private void setSwitchChecked(boolean checked) {
+        b.switchNotif.setOnCheckedChangeListener(null);
+        b.switchNotif.setChecked(checked);
+        b.switchNotif.setOnCheckedChangeListener(notifToggleListener);
+    }
+
+    private boolean hasNotifPermission() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+            || ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void onNotifToggle(boolean checked) {
+        if (checked) {
+            if (!hasNotifPermission()) {
+                // Ask for permission; the launcher callback finalizes the state.
+                enableNotifPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
+                return;
+            }
+            NotificationPrefs.setEnabled(requireContext(), true);
+        } else {
+            NotificationPrefs.setEnabled(requireContext(), false);
+        }
         updatePermissionCaption();
     }
 

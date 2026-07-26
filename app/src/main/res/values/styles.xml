@@ -21,6 +21,38 @@
         <item name="android:paddingVertical">8dp</item>
     </style>
 
+    <!-- Screen header title -->
+    <style name="ScreenTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingHorizontal">20dp</item>
+        <item name="android:paddingTop">32dp</item>
+        <item name="android:textColor">@color/charcoal_ink</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+
+    <!-- Short sage accent bar under a screen title -->
+    <style name="ScreenTitleAccent">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">4dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@drawable/bg_accent_bar</item>
+    </style>
+
+    <!-- Screen header subtitle / count -->
+    <style name="ScreenSubtitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingHorizontal">20dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textColor">@color/muted_steel</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <!-- Rounded corners for the task-list thumbnail -->
     <style name="RoundedThumbnail" parent="">
         <item name="cornerFamily">rounded</item>

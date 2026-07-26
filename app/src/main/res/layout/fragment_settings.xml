@@ -5,15 +5,49 @@
     android:background="@color/canvas_mist">
 
     <TextView
-        android:layout_width="wrap_content"
+        style="@style/ScreenTitle"
+        android:text="@string/settings" />
+
+    <View style="@style/ScreenTitleAccent" />
+
+    <TextView
+        style="@style/ScreenSubtitle"
+        android:paddingBottom="16dp"
+        android:text="@string/settings_subtitle" />
+
+    <LinearLayout
+        android:id="@+id/row_notifications"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/settings"
-        android:textColor="@color/charcoal_ink"
-        android:textSize="28sp"
-        android:textStyle="bold"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
         android:paddingHorizontal="20dp"
-        android:paddingTop="24dp"
-        android:paddingBottom="16dp" />
+        android:paddingVertical="12dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_bell"
+            android:contentDescription="@string/notifications" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/notifications"
+            android:textColor="@color/charcoal_ink"
+            android:textSize="16sp" />
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch_notif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:background="@color/whisper_border" />
 
     <LinearLayout
         android:id="@+id/row_add_widget"

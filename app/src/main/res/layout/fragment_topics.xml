@@ -12,24 +12,15 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="24dp"
-            android:text="@string/topics"
-            android:textColor="@color/charcoal_ink"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            style="@style/ScreenTitle"
+            android:text="@string/topics" />
+
+        <View style="@style/ScreenTitleAccent" />
 
         <TextView
             android:id="@+id/count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:paddingBottom="12dp"
-            android:fontFamily="monospace"
-            android:textColor="@color/muted_steel"
-            android:textSize="13sp" />
+            style="@style/ScreenSubtitle"
+            android:paddingBottom="14dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_topics"
