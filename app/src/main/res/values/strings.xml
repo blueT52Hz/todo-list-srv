@@ -26,8 +26,6 @@
     <string name="notif_permission_needed">Cần bật quyền thông báo trong Cài đặt</string>
     <string name="widget_pin_unsupported">Launcher không hỗ trợ thêm tự động — kéo widget thủ công</string>
     <string name="widget_empty">Không có việc nào</string>
-    <string name="calendar">Calendar</string>
     <string name="prev_month">Tháng trước</string>
     <string name="next_month">Tháng sau</string>
-    <string name="day_empty">Không có việc nào</string>
 </resources>

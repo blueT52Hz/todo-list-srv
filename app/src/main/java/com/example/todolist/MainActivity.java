@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.todolist.databinding.ActivityMainBinding;
-import com.example.todolist.ui.calendar.CalendarFragment;
 import com.example.todolist.ui.settings.SettingsFragment;
 import com.example.todolist.ui.tasks.TasksFragment;
 import com.example.todolist.ui.topics.TopicsFragment;
@@ -44,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (id == R.id.nav_settings) {
                 show(new SettingsFragment());
-                return true;
-            } else if (id == R.id.nav_calendar) {
-                show(new CalendarFragment());
                 return true;
             }
             return false;
