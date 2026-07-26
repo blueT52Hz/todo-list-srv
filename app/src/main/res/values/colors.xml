@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="canvas_mist">#F7F8F7</color>
+    <color name="pure_surface">#FFFFFF</color>
+    <color name="charcoal_ink">#1C1F1E</color>
+    <color name="muted_steel">#6B7270</color>
+    <color name="faint_steel">#A0A5A3</color>
+    <color name="muted_sage">#2F7A6F</color>
+    <color name="sage_wash">#1A2F7A6F</color>
+    <color name="soft_clay">#B4593F</color>
+    <color name="whisper_border">#141C1F1E</color>
 </resources>
