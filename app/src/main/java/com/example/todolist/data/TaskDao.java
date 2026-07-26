@@ -17,6 +17,11 @@ public interface TaskDao {
     LiveData<List<Long>> getDueAtInRange(long from, long to);
     @Query("SELECT * FROM tasks WHERE dueAt >= :from AND dueAt < :to ORDER BY dueAt ASC")
     LiveData<List<Task>> getByDueRange(long from, long to);
+    @Query("SELECT * FROM tasks " +
+           "WHERE (:hasDate = 0 OR (dueAt >= :from AND dueAt < :to)) " +
+           "AND (:hasCats = 0 OR topicId IN (:cats)) " +
+           "ORDER BY done ASC, dueAt IS NULL, dueAt ASC, createdAt DESC")
+    LiveData<List<Task>> getFiltered(int hasDate, long from, long to, int hasCats, List<Long> cats);
     @Insert long insert(Task task);
     @Update void update(Task task);
     @Delete void delete(Task task);

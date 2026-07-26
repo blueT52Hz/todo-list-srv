@@ -35,6 +35,10 @@ public class TaskRepository {
         return dao.getByDueRange(from, to);
     }
 
+    public LiveData<List<Task>> getFiltered(int hasDate, long from, long to, int hasCats, List<Long> cats) {
+        return dao.getFiltered(hasDate, from, to, hasCats, cats);
+    }
+
     public void insert(Task t, OnId cb) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             long id = dao.insert(t);
