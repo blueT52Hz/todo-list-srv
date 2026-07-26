@@ -66,8 +66,6 @@ public class TasksFragment extends Fragment implements TaskAdapter.Listener {
             DatePickerDialogFragment.newInstance(init != null ? init : LocalDate.now())
                 .show(getChildFragmentManager(), "date_picker");
         });
-        binding.btnClearDate.setOnClickListener(v -> viewModel.clearDate());
-
         getChildFragmentManager().setFragmentResultListener(
             DatePickerDialogFragment.REQUEST_KEY, getViewLifecycleOwner(), (key, bundle) -> {
                 long epochDay = bundle.getLong(DatePickerDialogFragment.RESULT_EPOCH_DAY);
@@ -75,21 +73,16 @@ public class TasksFragment extends Fragment implements TaskAdapter.Listener {
             });
 
         viewModel.getDate().observe(getViewLifecycleOwner(), date -> {
-            if (date != null) {
-                binding.btnPickDate.setText(date.getDayOfMonth() + "/" + date.getMonthValue());
-                binding.btnClearDate.setVisibility(View.VISIBLE);
-            } else {
-                binding.btnPickDate.setText(R.string.pick_date);
-                binding.btnClearDate.setVisibility(View.GONE);
-            }
+            binding.btnPickDate.setText(date != null
+                ? date.getDayOfMonth() + "/" + date.getMonthValue()
+                : getString(R.string.pick_date));
+            updateClearVisibility();
         });
 
         // Category filter
         binding.btnCategory.setOnClickListener(v ->
             CategoryFilterBottomSheet.newInstance(viewModel.getCategories().getValue())
                 .show(getChildFragmentManager(), "category_filter"));
-        binding.btnClearCategory.setOnClickListener(v ->
-            viewModel.setCategories(Collections.emptySet()));
 
         getChildFragmentManager().setFragmentResultListener(
             CategoryFilterBottomSheet.REQUEST_KEY, getViewLifecycleOwner(), (key, bundle) -> {
@@ -101,14 +94,26 @@ public class TasksFragment extends Fragment implements TaskAdapter.Listener {
 
         viewModel.getCategories().observe(getViewLifecycleOwner(), cats -> {
             int n = cats == null ? 0 : cats.size();
-            if (n > 0) {
-                binding.btnCategory.setText(getString(R.string.category_count, n));
-                binding.btnClearCategory.setVisibility(View.VISIBLE);
-            } else {
-                binding.btnCategory.setText(R.string.category);
-                binding.btnClearCategory.setVisibility(View.GONE);
-            }
+            binding.btnCategory.setText(n > 0
+                ? getString(R.string.category_count, n)
+                : getString(R.string.category));
+            updateClearVisibility();
         });
+
+        // Shared "clear filters" button — clears both date and category
+        binding.btnClearFilters.setOnClickListener(v -> {
+            viewModel.clearDate();
+            viewModel.setCategories(Collections.emptySet());
+        });
+    }
+
+    /** Show the shared clear button whenever either the date or category filter is active. */
+    private void updateClearVisibility() {
+        if (binding == null) return;
+        Set<Long> cats = viewModel.getCategories().getValue();
+        boolean active = viewModel.getDate().getValue() != null
+            || (cats != null && !cats.isEmpty());
+        binding.btnClearFilters.setVisibility(active ? View.VISIBLE : View.GONE);
     }
 
     private void applyTopicColors(List<Topic> topics) {

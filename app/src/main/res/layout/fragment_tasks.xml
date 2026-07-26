@@ -56,17 +56,6 @@
                     app:iconTint="@color/muted_sage"
                     app:strokeColor="@color/whisper_border" />
 
-                <ImageView
-                    android:id="@+id/btn_clear_date"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="4dp"
-                    android:padding="8dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/clear_date"
-                    android:src="@drawable/ic_close"
-                    android:visibility="gone" />
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_category"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -80,15 +69,16 @@
                     app:iconTint="@color/muted_sage"
                     app:strokeColor="@color/whisper_border" />
 
-                <ImageView
-                    android:id="@+id/btn_clear_category"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_clear_filters"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:padding="8dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/clear_category"
-                    android:src="@drawable/ic_close"
+                    android:text="@string/clear_filters"
+                    android:textColor="@color/muted_steel"
+                    app:icon="@drawable/ic_close"
+                    app:iconTint="@color/muted_steel"
                     android:visibility="gone" />
             </LinearLayout>
         </HorizontalScrollView>
