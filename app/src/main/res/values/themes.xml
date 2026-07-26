@@ -3,6 +3,11 @@
     <style name="Base.Theme.TodoList" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/muted_sage</item>
+        <item name="colorOnPrimary">@color/pure_surface</item>
+        <item name="android:colorBackground">@color/canvas_mist</item>
+        <item name="colorSurface">@color/pure_surface</item>
+        <item name="colorOnSurface">@color/charcoal_ink</item>
     </style>
 
     <style name="Theme.TodoList" parent="Base.Theme.TodoList" />

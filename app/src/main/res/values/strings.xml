@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">TodoList</string>
+    <string name="tasks">Tasks</string>
+    <string name="topics">Topics</string>
+    <string name="today">Today</string>
+    <string name="no_tasks_yet">No tasks yet — add your first</string>
+    <string name="add_a_task">Add a task</string>
+    <string name="new_task">New Task</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="save_task">Save task</string>
+    <string name="title">Title</string>
+    <string name="topic">Topic</string>
+    <string name="due_reminder">Due date &amp; reminder</string>
+    <string name="attachment">Attachment</string>
+    <string name="all">All</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="new_topic">New Topic</string>
+    <string name="topic_name">Topic name</string>
 </resources>
