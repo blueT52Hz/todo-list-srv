@@ -11,6 +11,8 @@ public interface TaskDao {
     LiveData<List<Task>> getByTopic(long topicId);
     @Query("SELECT * FROM tasks WHERE id = :id") Task getByIdSync(long id);
     @Query("SELECT * FROM tasks WHERE done = 0 AND dueAt IS NOT NULL") List<Task> getPendingWithDueSync();
+    @Query("SELECT * FROM tasks WHERE done = 0 ORDER BY dueAt IS NULL, dueAt ASC, createdAt DESC")
+    List<Task> getPendingSync();
     @Insert long insert(Task task);
     @Update void update(Task task);
     @Delete void delete(Task task);
