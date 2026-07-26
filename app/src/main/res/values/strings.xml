@@ -28,4 +28,6 @@
     <string name="widget_empty">Không có việc nào</string>
     <string name="prev_month">Tháng trước</string>
     <string name="next_month">Tháng sau</string>
+    <string name="pick_date">Chọn ngày</string>
+    <string name="clear_date">Bỏ lọc ngày</string>
 </resources>
