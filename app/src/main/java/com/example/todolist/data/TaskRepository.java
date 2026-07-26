@@ -29,8 +29,9 @@ public class TaskRepository {
 
     public LiveData<List<Task>> getAll() { return dao.getAll(); }
 
-    public LiveData<List<Task>> getFiltered(int hasDate, long from, long to, int hasCats, List<Long> cats) {
-        return dao.getFiltered(hasDate, from, to, hasCats, cats);
+    public LiveData<List<Task>> getFiltered(int hasDate, long from, long to,
+                                            int hasCats, List<Long> cats, int status) {
+        return dao.getFiltered(hasDate, from, to, hasCats, cats, status);
     }
 
     public void insert(Task t, OnId cb) {

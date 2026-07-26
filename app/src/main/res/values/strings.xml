@@ -39,5 +39,8 @@
     <string name="clear_selection">Bỏ chọn</string>
     <string name="clear_category">Bỏ lọc danh mục</string>
     <string name="clear_filters">Bỏ lọc</string>
+    <string name="status_all">Tất cả</string>
+    <string name="status_pending">Chưa xong</string>
+    <string name="status_done">Đã xong</string>
     <string name="no_category_hint">Chưa có danh mục — tạo ở tab Topics</string>
 </resources>
