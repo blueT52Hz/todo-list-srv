@@ -31,6 +31,10 @@ public class TaskRepository {
 
     public LiveData<List<Task>> getByTopic(long topicId) { return dao.getByTopic(topicId); }
 
+    public LiveData<List<Task>> getByDueRange(long from, long to) {
+        return dao.getByDueRange(from, to);
+    }
+
     public void insert(Task t, OnId cb) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             long id = dao.insert(t);
