@@ -30,4 +30,11 @@
     <string name="next_month">Tháng sau</string>
     <string name="pick_date">Chọn ngày</string>
     <string name="clear_date">Bỏ lọc ngày</string>
+    <string name="category">Danh mục</string>
+    <string name="category_count">Danh mục (%d)</string>
+    <string name="search_category">Tìm danh mục...</string>
+    <string name="apply">Áp dụng</string>
+    <string name="clear_selection">Bỏ chọn</string>
+    <string name="clear_category">Bỏ lọc danh mục</string>
+    <string name="no_category_hint">Chưa có danh mục — tạo ở tab Topics</string>
 </resources>
