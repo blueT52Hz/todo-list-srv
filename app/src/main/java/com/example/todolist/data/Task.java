@@ -1,4 +1,5 @@
 package com.example.todolist.data;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -11,7 +12,7 @@ import androidx.room.PrimaryKey;
     indices = {@Index("topicId")})
 public class Task {
     @PrimaryKey(autoGenerate = true) public long id;
-    public String title;
+    @NonNull public String title;
     @Nullable public String note;
     @Nullable public Long topicId;
     @Nullable public Long dueAt;
