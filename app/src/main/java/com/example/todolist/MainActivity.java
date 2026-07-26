@@ -21,32 +21,45 @@ public class MainActivity extends AppCompatActivity {
     private final ActivityResultLauncher<String> notificationPermission =
         registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> { });
 
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         requestNotificationPermission();
 
-        if (savedInstanceState == null) {
-            show(new TasksFragment());
-        }
+        binding.navTasks.setOnClickListener(v -> selectTab(R.id.nav_tasks));
+        binding.navTopics.setOnClickListener(v -> selectTab(R.id.nav_topics));
+        binding.navSettings.setOnClickListener(v -> selectTab(R.id.nav_settings));
 
-        binding.bottomNav.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (id == R.id.nav_tasks) {
-                show(new TasksFragment());
-                return true;
-            } else if (id == R.id.nav_topics) {
-                show(new TopicsFragment());
-                return true;
-            } else if (id == R.id.nav_settings) {
-                show(new SettingsFragment());
-                return true;
-            }
-            return false;
-        });
+        if (savedInstanceState == null) {
+            selectTab(R.id.nav_tasks);
+        }
+    }
+
+    private int currentNavId = -1;
+
+    /** Highlights the whole icon+label block of the chosen tab and swaps the fragment. */
+    private void selectTab(int id) {
+        if (id == currentNavId) return;
+        currentNavId = id;
+
+        binding.navTasks.setSelected(id == R.id.nav_tasks);
+        binding.navTopics.setSelected(id == R.id.nav_topics);
+        binding.navSettings.setSelected(id == R.id.nav_settings);
+
+        Fragment fragment;
+        if (id == R.id.nav_topics) {
+            fragment = new TopicsFragment();
+        } else if (id == R.id.nav_settings) {
+            fragment = new SettingsFragment();
+        } else {
+            fragment = new TasksFragment();
+        }
+        show(fragment);
     }
 
     private void requestNotificationPermission() {
