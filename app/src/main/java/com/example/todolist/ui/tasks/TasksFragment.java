@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,14 +16,16 @@ import com.example.todolist.R;
 import com.example.todolist.data.Topic;
 import com.example.todolist.databinding.FragmentTasksBinding;
 import com.example.todolist.reminder.ReminderScheduler;
-import com.example.todolist.ui.detail.TaskDetailActivity;
 import com.example.todolist.ui.calendar.DatePickerDialogFragment;
-import com.google.android.material.chip.Chip;
+import com.example.todolist.ui.detail.TaskDetailActivity;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class TasksFragment extends Fragment implements TaskAdapter.Listener {
     private FragmentTasksBinding binding;
@@ -46,7 +47,7 @@ public class TasksFragment extends Fragment implements TaskAdapter.Listener {
         binding.rvTasks.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvTasks.setAdapter(adapter);
 
-        viewModel.getTopics().observe(getViewLifecycleOwner(), this::buildChips);
+        viewModel.getTopics().observe(getViewLifecycleOwner(), this::applyTopicColors);
 
         viewModel.getTasks().observe(getViewLifecycleOwner(), tasks -> {
             adapter.submitList(tasks);
@@ -59,13 +60,12 @@ public class TasksFragment extends Fragment implements TaskAdapter.Listener {
         binding.fabAddTask.setOnClickListener(v -> openEditor(null));
         binding.btnEmptyAdd.setOnClickListener(v -> openEditor(null));
 
+        // Date filter
         binding.btnPickDate.setOnClickListener(v -> {
             LocalDate init = viewModel.getDate().getValue();
             DatePickerDialogFragment.newInstance(init != null ? init : LocalDate.now())
                 .show(getChildFragmentManager(), "date_picker");
         });
-        binding.btnClearDate.setOnClickListener(v -> viewModel.clearDate());
-
         getChildFragmentManager().setFragmentResultListener(
             DatePickerDialogFragment.REQUEST_KEY, getViewLifecycleOwner(), (key, bundle) -> {
                 long epochDay = bundle.getLong(DatePickerDialogFragment.RESULT_EPOCH_DAY);
@@ -73,51 +73,53 @@ public class TasksFragment extends Fragment implements TaskAdapter.Listener {
             });
 
         viewModel.getDate().observe(getViewLifecycleOwner(), date -> {
-            if (date != null) {
-                binding.btnPickDate.setText(date.getDayOfMonth() + "/" + date.getMonthValue());
-                binding.btnClearDate.setVisibility(View.VISIBLE);
-            } else {
-                binding.btnPickDate.setText(R.string.pick_date);
-                binding.btnClearDate.setVisibility(View.GONE);
-            }
+            binding.btnPickDate.setText(date != null
+                ? date.getDayOfMonth() + "/" + date.getMonthValue()
+                : getString(R.string.pick_date));
+            updateClearVisibility();
+        });
+
+        // Category filter
+        binding.btnCategory.setOnClickListener(v ->
+            CategoryFilterBottomSheet.newInstance(viewModel.getCategories().getValue())
+                .show(getChildFragmentManager(), "category_filter"));
+
+        getChildFragmentManager().setFragmentResultListener(
+            CategoryFilterBottomSheet.REQUEST_KEY, getViewLifecycleOwner(), (key, bundle) -> {
+                long[] ids = bundle.getLongArray(CategoryFilterBottomSheet.RESULT_IDS);
+                Set<Long> set = new HashSet<>();
+                if (ids != null) for (long id : ids) set.add(id);
+                viewModel.setCategories(set);
+            });
+
+        viewModel.getCategories().observe(getViewLifecycleOwner(), cats -> {
+            int n = cats == null ? 0 : cats.size();
+            binding.btnCategory.setText(n > 0
+                ? getString(R.string.category_count, n)
+                : getString(R.string.category));
+            updateClearVisibility();
+        });
+
+        // Shared "clear filters" button — clears both date and category
+        binding.btnClearFilters.setOnClickListener(v -> {
+            viewModel.clearDate();
+            viewModel.setCategories(Collections.emptySet());
         });
     }
 
-    private void buildChips(List<Topic> topics) {
-        binding.chipGroup.removeAllViews();
+    /** Show the shared clear button whenever either the date or category filter is active. */
+    private void updateClearVisibility() {
+        if (binding == null) return;
+        Set<Long> cats = viewModel.getCategories().getValue();
+        boolean active = viewModel.getDate().getValue() != null
+            || (cats != null && !cats.isEmpty());
+        binding.btnClearFilters.setVisibility(active ? View.VISIBLE : View.GONE);
+    }
+
+    private void applyTopicColors(List<Topic> topics) {
         Map<Long, String> colors = new HashMap<>();
-
-        Chip all = makeChip(getString(R.string.all));
-        all.setTag(null);
-        all.setChecked(viewModel.getFilter() == null);
-        binding.chipGroup.addView(all);
-
-        for (Topic t : topics) {
-            colors.put(t.id, t.colorHex);
-            Chip chip = makeChip(t.name);
-            chip.setTag(t.id);
-            chip.setChecked(viewModel.getFilter() != null && viewModel.getFilter() == t.id);
-            binding.chipGroup.addView(chip);
-        }
+        for (Topic t : topics) colors.put(t.id, t.colorHex);
         adapter.setTopicColors(colors);
-
-        binding.chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
-            if (checkedIds.isEmpty()) return;
-            Chip checked = group.findViewById(checkedIds.get(0));
-            viewModel.setFilter(checked == null ? null : (Long) checked.getTag());
-        });
-    }
-
-    private Chip makeChip(String text) {
-        Chip chip = new Chip(requireContext());
-        chip.setText(text);
-        chip.setCheckable(true);
-        chip.setCheckedIconVisible(false);
-        chip.setChipBackgroundColor(ContextCompat.getColorStateList(requireContext(), R.color.chip_bg_color));
-        chip.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.nav_item_color));
-        chip.setChipStrokeColorResource(R.color.whisper_border);
-        chip.setChipStrokeWidth(getResources().getDisplayMetrics().density);
-        return chip;
     }
 
     private void openEditor(@Nullable Long taskId) {

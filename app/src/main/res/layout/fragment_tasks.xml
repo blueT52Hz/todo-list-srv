@@ -44,39 +44,53 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingHorizontal="8dp"
                 android:text="@string/pick_date"
                 android:textColor="@color/muted_sage"
+                android:textSize="12sp"
+                android:maxLines="1"
                 app:icon="@drawable/ic_calendar"
+                app:iconPadding="4dp"
+                app:iconSize="16dp"
+                app:iconTint="@color/muted_sage"
+                app:strokeColor="@color/whisper_border" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_category"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:minWidth="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingHorizontal="8dp"
+                android:text="@string/category"
+                android:textColor="@color/muted_sage"
+                android:textSize="12sp"
+                android:maxLines="1"
+                app:icon="@drawable/ic_arrow_drop_down"
+                app:iconGravity="textEnd"
+                app:iconPadding="4dp"
+                app:iconSize="16dp"
                 app:iconTint="@color/muted_sage"
                 app:strokeColor="@color/whisper_border" />
 
             <ImageView
-                android:id="@+id/btn_clear_date"
+                android:id="@+id/btn_clear_filters"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="4dp"
                 android:padding="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/clear_date"
+                android:contentDescription="@string/clear_filters"
                 android:src="@drawable/ic_close"
+                app:tint="@color/muted_steel"
                 android:visibility="gone" />
         </LinearLayout>
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:scrollbars="none"
-            android:clipToPadding="false">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:singleLine="true"
-                app:singleSelection="true"
-                app:selectionRequired="true" />
-        </HorizontalScrollView>
 
         <FrameLayout
             android:layout_width="match_parent"
