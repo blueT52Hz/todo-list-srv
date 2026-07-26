@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -54,14 +55,18 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/bg_topic_dot" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/thumb"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="12dp"
             android:contentDescription="@string/attachment"
             android:scaleType="centerCrop"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:shapeAppearanceOverlay="@style/RoundedThumbnail"
+            app:strokeColor="@color/faint_steel"
+            app:strokeWidth="1dp"
+            android:padding="1dp" />
     </LinearLayout>
 
     <View
