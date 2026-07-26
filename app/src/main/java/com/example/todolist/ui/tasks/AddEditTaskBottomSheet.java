@@ -37,6 +37,9 @@ public class AddEditTaskBottomSheet extends BottomSheetDialogFragment {
 
     private static final String ARG_ID = "task_id";
 
+    /** FragmentResult key emitted after a successful save, so an open detail screen can reload. */
+    public static final String REQUEST_SAVED = "task_saved";
+
     private BottomsheetEditTaskBinding b;
     private TasksViewModel vm;
 
@@ -216,15 +219,22 @@ public class AddEditTaskBottomSheet extends BottomSheetDialogFragment {
             t.createdAt = createdAt;
             vm.update(t);
             ReminderScheduler.schedule(requireContext(), t);
+            notifySaved();
             dismiss();
         } else {
             t.createdAt = System.currentTimeMillis();
             vm.insert(t, id -> {
                 t.id = id;
                 ReminderScheduler.schedule(requireContext(), t);
+                notifySaved();
                 dismiss();
             });
         }
+    }
+
+    /** Signal listeners (e.g. the detail screen) that the task was saved, so they can refresh. */
+    private void notifySaved() {
+        if (isAdded()) getParentFragmentManager().setFragmentResult(REQUEST_SAVED, new Bundle());
     }
 
     @Override

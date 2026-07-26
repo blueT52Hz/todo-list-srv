@@ -44,6 +44,11 @@ public class TaskDetailActivity extends AppCompatActivity {
         b.btnEdit.setOnClickListener(v ->
             AddEditTaskBottomSheet.newInstance(taskId).show(getSupportFragmentManager(), "edit_task"));
         b.btnDelete.setOnClickListener(v -> confirmDelete());
+
+        // Editing happens in a BottomSheet dialog, which does NOT re-trigger onResume() on dismiss.
+        // Reload the detail as soon as the edit sheet reports a successful save.
+        getSupportFragmentManager().setFragmentResultListener(
+            AddEditTaskBottomSheet.REQUEST_SAVED, this, (key, bundle) -> load());
     }
 
     @Override
