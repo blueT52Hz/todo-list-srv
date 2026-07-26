@@ -1,0 +1,38 @@
+<resources>
+    <!-- Custom bottom-nav item: full-width tap target holding a content-hugging pill -->
+    <style name="NavItemOuter">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingVertical">4dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="NavItemPill">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/bg_nav_item</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:paddingVertical">8dp</item>
+    </style>
+
+    <!-- Rounded pill shape for the active nav item indicator -->
+    <style name="ShapeAppearance.Nav.ActiveIndicator" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">18dp</item>
+    </style>
+
+    <!-- Sage-tinted pill behind the selected bottom-nav item (Material 3 active indicator) -->
+    <style name="Widget.Nav.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/sage_wash</item>
+        <item name="android:width">64dp</item>
+        <item name="android:height">36dp</item>
+        <item name="marginHorizontal">8dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Nav.ActiveIndicator</item>
+    </style>
+</resources>
