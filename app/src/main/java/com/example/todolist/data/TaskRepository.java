@@ -29,12 +29,6 @@ public class TaskRepository {
 
     public LiveData<List<Task>> getAll() { return dao.getAll(); }
 
-    public LiveData<List<Task>> getByTopic(long topicId) { return dao.getByTopic(topicId); }
-
-    public LiveData<List<Task>> getByDueRange(long from, long to) {
-        return dao.getByDueRange(from, to);
-    }
-
     public LiveData<List<Task>> getFiltered(int hasDate, long from, long to, int hasCats, List<Long> cats) {
         return dao.getFiltered(hasDate, from, to, hasCats, cats);
     }
