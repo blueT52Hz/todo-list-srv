@@ -46,6 +46,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
+    implementation(libs.lifecycle.livedata)
     implementation(libs.glide)
     implementation(libs.recyclerview)
 }
