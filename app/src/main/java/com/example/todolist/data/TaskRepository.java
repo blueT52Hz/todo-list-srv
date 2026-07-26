@@ -6,6 +6,8 @@ import android.os.Looper;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.todolist.widget.WidgetUpdater;
+
 import java.util.List;
 
 /**
@@ -17,9 +19,11 @@ public class TaskRepository {
     public interface OnTask { void onTask(Task t); }
 
     private final TaskDao dao;
+    private final Context appContext;
     private final Handler main = new Handler(Looper.getMainLooper());
 
     public TaskRepository(Context ctx) {
+        appContext = ctx.getApplicationContext();
         dao = AppDatabase.getInstance(ctx).taskDao();
     }
 
@@ -30,16 +34,23 @@ public class TaskRepository {
     public void insert(Task t, OnId cb) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             long id = dao.insert(t);
+            WidgetUpdater.refresh(appContext);
             if (cb != null) main.post(() -> cb.onId(id));
         });
     }
 
     public void update(Task t) {
-        AppDatabase.databaseWriteExecutor.execute(() -> dao.update(t));
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            dao.update(t);
+            WidgetUpdater.refresh(appContext);
+        });
     }
 
     public void delete(Task t) {
-        AppDatabase.databaseWriteExecutor.execute(() -> dao.delete(t));
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            dao.delete(t);
+            WidgetUpdater.refresh(appContext);
+        });
     }
 
     public void getByIdAsync(long id, OnTask cb) {
