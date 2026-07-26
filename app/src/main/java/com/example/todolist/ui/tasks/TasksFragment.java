@@ -18,8 +18,10 @@ import com.example.todolist.data.Topic;
 import com.example.todolist.databinding.FragmentTasksBinding;
 import com.example.todolist.reminder.ReminderScheduler;
 import com.example.todolist.ui.detail.TaskDetailActivity;
+import com.example.todolist.ui.calendar.DatePickerDialogFragment;
 import com.google.android.material.chip.Chip;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +58,29 @@ public class TasksFragment extends Fragment implements TaskAdapter.Listener {
 
         binding.fabAddTask.setOnClickListener(v -> openEditor(null));
         binding.btnEmptyAdd.setOnClickListener(v -> openEditor(null));
+
+        binding.btnPickDate.setOnClickListener(v -> {
+            LocalDate init = viewModel.getDate().getValue();
+            DatePickerDialogFragment.newInstance(init != null ? init : LocalDate.now())
+                .show(getChildFragmentManager(), "date_picker");
+        });
+        binding.btnClearDate.setOnClickListener(v -> viewModel.clearDate());
+
+        getChildFragmentManager().setFragmentResultListener(
+            DatePickerDialogFragment.REQUEST_KEY, getViewLifecycleOwner(), (key, bundle) -> {
+                long epochDay = bundle.getLong(DatePickerDialogFragment.RESULT_EPOCH_DAY);
+                viewModel.setDate(LocalDate.ofEpochDay(epochDay));
+            });
+
+        viewModel.getDate().observe(getViewLifecycleOwner(), date -> {
+            if (date != null) {
+                binding.btnPickDate.setText(date.getDayOfMonth() + "/" + date.getMonthValue());
+                binding.btnClearDate.setVisibility(View.VISIBLE);
+            } else {
+                binding.btnPickDate.setText(R.string.pick_date);
+                binding.btnClearDate.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void buildChips(List<Topic> topics) {
