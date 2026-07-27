@@ -9,10 +9,15 @@
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build
+build/
 /captures
 .externalNativeBuild
 .cxx
+.kotlin/
 local.properties
+/.idea/
+*.apk
+*.aab
 .claude/
 skills-lock.json
 .agents/
