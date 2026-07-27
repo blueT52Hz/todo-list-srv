@@ -56,6 +56,19 @@ public class TaskRepository {
         });
     }
 
+    /** Flips the done flag of a stored task. {@code after} runs on the write executor thread. */
+    public void setDone(long id, boolean done, Runnable after) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            Task t = dao.getByIdSync(id);
+            if (t != null && t.done != done) {
+                t.done = done;
+                dao.update(t);
+                WidgetUpdater.refresh(appContext);
+            }
+            if (after != null) after.run();
+        });
+    }
+
     public void getByIdAsync(long id, OnTask cb) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             Task t = dao.getByIdSync(id);

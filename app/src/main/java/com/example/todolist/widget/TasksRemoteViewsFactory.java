@@ -71,8 +71,13 @@ class TasksRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             rv.setViewVisibility(R.id.widget_item_dot, View.GONE);
         }
 
-        Intent fill = new Intent().putExtra(ReminderScheduler.EXTRA_TASK_ID, t.id);
-        rv.setOnClickFillInIntent(R.id.widget_item_root, fill);
+        Intent open = new Intent().putExtra(ReminderScheduler.EXTRA_TASK_ID, t.id);
+        rv.setOnClickFillInIntent(R.id.widget_item_root, open);
+
+        Intent done = new Intent()
+            .putExtra(ReminderScheduler.EXTRA_TASK_ID, t.id)
+            .putExtra(TasksWidgetProvider.EXTRA_MARK_DONE, true);
+        rv.setOnClickFillInIntent(R.id.widget_item_check, done);
         return rv;
     }
 
