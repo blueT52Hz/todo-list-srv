@@ -30,6 +30,7 @@
     <string name="notif_permission_needed">Enable notification permission in Settings</string>
     <string name="widget_pin_unsupported">Launcher doesn\'t support auto-add — drag the widget manually</string>
     <string name="widget_empty">No tasks</string>
+    <string name="mark_done">Mark done</string>
     <string name="prev_month">Previous month</string>
     <string name="next_month">Next month</string>
     <string name="pick_date">Pick date</string>
