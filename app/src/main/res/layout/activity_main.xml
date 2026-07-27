@@ -39,8 +39,8 @@
                 <LinearLayout style="@style/NavItemPill">
 
                     <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/tasks"
                         android:src="@drawable/ic_tasks"
                         android:tint="@color/nav_pill_color" />
@@ -48,11 +48,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="6dp"
                         android:text="@string/tasks"
                         android:textColor="@color/nav_pill_color"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:maxLines="1" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -64,8 +65,8 @@
                 <LinearLayout style="@style/NavItemPill">
 
                     <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/topics"
                         android:src="@drawable/ic_topics"
                         android:tint="@color/nav_pill_color" />
@@ -73,11 +74,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="6dp"
                         android:text="@string/topics"
                         android:textColor="@color/nav_pill_color"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:maxLines="1" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -89,8 +91,8 @@
                 <LinearLayout style="@style/NavItemPill">
 
                     <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/settings"
                         android:src="@drawable/ic_settings"
                         android:tint="@color/nav_pill_color" />
@@ -98,11 +100,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="6dp"
                         android:text="@string/settings"
                         android:textColor="@color/nav_pill_color"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:maxLines="1" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

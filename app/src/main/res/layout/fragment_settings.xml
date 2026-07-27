@@ -104,19 +104,4 @@
             android:textColor="@color/charcoal_ink"
             android:textSize="16sp" />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="20dp"
-        android:background="@color/whisper_border" />
-
-    <TextView
-        android:id="@+id/notif_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="16dp"
-        android:textColor="@color/muted_steel"
-        android:textSize="13sp" />
 </LinearLayout>

@@ -36,7 +36,6 @@ public class SettingsFragment extends Fragment {
         registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
             if (granted) postTestNotification();
             else toast(getString(R.string.notif_permission_needed));
-            updatePermissionCaption();
         });
 
     /** Permission request triggered by turning the notifications switch on. */
@@ -49,7 +48,6 @@ public class SettingsFragment extends Fragment {
                 setSwitchChecked(false);
                 toast(getString(R.string.notif_permission_needed));
             }
-            updatePermissionCaption();
         });
 
     private final CompoundButton.OnCheckedChangeListener notifToggleListener =
@@ -74,7 +72,6 @@ public class SettingsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         syncNotifSwitch();
-        updatePermissionCaption();
     }
 
     /** Reflect the stored toggle + current permission on the switch. */
@@ -106,7 +103,6 @@ public class SettingsFragment extends Fragment {
         } else {
             NotificationPrefs.setEnabled(requireContext(), false);
         }
-        updatePermissionCaption();
     }
 
     private void requestPinWidget() {
@@ -138,11 +134,6 @@ public class SettingsFragment extends Fragment {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
         NotificationManagerCompat.from(requireContext()).notify(TEST_NOTIFICATION_ID, n.build());
-    }
-
-    private void updatePermissionCaption() {
-        boolean on = NotificationManagerCompat.from(requireContext()).areNotificationsEnabled();
-        b.notifStatus.setText(getString(on ? R.string.notif_on : R.string.notif_off));
     }
 
     private void toast(String msg) {
