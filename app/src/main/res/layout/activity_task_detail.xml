@@ -11,8 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:paddingHorizontal="20dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="20dp">
 
+        <!-- Header: back only -->
         <ImageView
             android:id="@+id/btn_back"
             android:layout_width="40dp"
@@ -20,17 +23,21 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/edit"
             android:padding="8dp"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_chevron_left"
+            app:tint="@color/muted_sage" />
 
+        <!-- Title -->
         <TextView
             android:id="@+id/detail_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/charcoal_ink"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:lineSpacingExtra="2dp" />
 
+        <!-- Meta row: topic cluster + reminder cluster -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,8 +47,8 @@
 
             <View
                 android:id="@+id/detail_dot"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_topic_dot"
                 android:visibility="gone" />
@@ -50,33 +57,71 @@
                 android:id="@+id/detail_topic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:textColor="@color/muted_steel"
                 android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/detail_due"
+            <LinearLayout
+                android:id="@+id/detail_reminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="monospace"
-                android:textColor="@color/muted_steel"
-                android:textSize="13sp" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="6dp"
+                    android:contentDescription="@string/due_reminder"
+                    android:src="@drawable/ic_bell"
+                    app:tint="@color/faint_steel" />
+
+                <TextView
+                    android:id="@+id/detail_due"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:textColor="@color/muted_steel"
+                    android:textSize="13sp" />
+            </LinearLayout>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/detail_image"
+        <!-- Attachment images: rounded cards, horizontal gallery -->
+        <HorizontalScrollView
+            android:id="@+id/detail_image_scroll"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/attachment"
-            android:scaleType="centerCrop"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:clipToPadding="false"
+            android:scrollbars="none"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/detail_image_row"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <!-- Notes section -->
+        <TextView
+            android:id="@+id/detail_note_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:letterSpacing="0.03"
+            android:text="@string/notes"
+            android:textColor="@color/muted_sage"
+            android:textSize="14sp"
+            android:textStyle="bold"
             android:visibility="gone" />
 
         <TextView
             android:id="@+id/detail_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="12dp"
             android:lineSpacingExtra="4dp"
             android:textColor="@color/muted_steel"
             android:textSize="16sp"
@@ -88,15 +133,20 @@
             android:layout_weight="1"
             android:minHeight="24dp" />
 
+        <!-- Bottom actions -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_edit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_marginTop="24dp"
             android:text="@string/edit"
             android:textColor="@color/pure_surface"
+            android:textSize="18sp"
             app:backgroundTint="@color/muted_sage"
-            app:cornerRadius="20dp" />
+            app:cornerRadius="12dp"
+            app:icon="@drawable/ic_edit"
+            app:iconGravity="textStart"
+            app:iconTint="@color/pure_surface" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_delete"
@@ -104,7 +154,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:fontFamily="monospace"
             android:text="@string/delete"
+            android:textSize="13sp"
             android:textColor="@color/soft_clay" />
     </LinearLayout>
 </ScrollView>

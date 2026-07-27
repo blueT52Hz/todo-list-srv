@@ -37,7 +37,7 @@ public class TopicsFragment extends Fragment {
 
         viewModel.getTopics().observe(getViewLifecycleOwner(), topics -> {
             adapter.submitList(topics);
-            binding.count.setText(topics.size() + " topics");
+            binding.count.setText(topics.size() + " categories");
         });
 
         binding.fabAddTopic.setOnClickListener(v ->

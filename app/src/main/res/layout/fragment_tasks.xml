@@ -12,25 +12,44 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="24dp"
-            android:text="@string/today"
-            android:textColor="@color/charcoal_ink"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            style="@style/ScreenTitle"
+            android:text="@string/tasks" />
+
+        <View style="@style/ScreenTitleAccent" />
 
         <TextView
             android:id="@+id/count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:paddingBottom="12dp"
-            android:fontFamily="monospace"
-            android:textColor="@color/muted_steel"
-            android:textSize="13sp" />
+            style="@style/ScreenSubtitle"
+            android:paddingBottom="14dp" />
 
+        <!-- Status filter: segmented pill (all / not done / done) -->
+        <LinearLayout
+            android:id="@+id/status_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_segment_track"
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/btn_status_all"
+                style="@style/SegmentItem"
+                android:text="@string/status_all" />
+
+            <TextView
+                android:id="@+id/btn_status_pending"
+                style="@style/SegmentItem"
+                android:text="@string/status_pending" />
+
+            <TextView
+                android:id="@+id/btn_status_done"
+                style="@style/SegmentItem"
+                android:text="@string/status_done" />
+        </LinearLayout>
+
+        <!-- Date / category filter row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,42 +60,32 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_pick_date"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/FilterChipButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/pick_date"
-                android:textColor="@color/muted_sage"
-                app:icon="@drawable/ic_calendar"
-                app:iconTint="@color/muted_sage"
-                app:strokeColor="@color/whisper_border" />
+                app:icon="@drawable/ic_calendar" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_category"
+                style="@style/FilterChipButton"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/category"
+                app:icon="@drawable/ic_arrow_drop_down"
+                app:iconGravity="textEnd" />
 
             <ImageView
-                android:id="@+id/btn_clear_date"
+                android:id="@+id/btn_clear_filters"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="4dp"
                 android:padding="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/clear_date"
+                android:contentDescription="@string/clear_filters"
                 android:src="@drawable/ic_close"
+                app:tint="@color/muted_steel"
                 android:visibility="gone" />
         </LinearLayout>
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:scrollbars="none"
-            android:clipToPadding="false">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:singleLine="true"
-                app:singleSelection="true"
-                app:selectionRequired="true" />
-        </HorizontalScrollView>
 
         <FrameLayout
             android:layout_width="match_parent"

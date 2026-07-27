@@ -16,6 +16,7 @@ import com.example.todolist.TodoApp;
 import com.example.todolist.data.AppDatabase;
 import com.example.todolist.data.Task;
 import com.example.todolist.ui.detail.TaskDetailActivity;
+import com.example.todolist.util.NotificationPrefs;
 
 /** Fires when a task reminder is due → posts a notification. */
 public class ReminderReceiver extends BroadcastReceiver {
@@ -25,6 +26,9 @@ public class ReminderReceiver extends BroadcastReceiver {
         long taskId = intent.getLongExtra(ReminderScheduler.EXTRA_TASK_ID, -1);
         if (taskId < 0) return;
         Context app = context.getApplicationContext();
+
+        // Respect the user's notifications toggle from Settings.
+        if (!NotificationPrefs.isEnabled(app)) return;
 
         AppDatabase.databaseWriteExecutor.execute(() -> {
             Task t = AppDatabase.getInstance(app).taskDao().getByIdSync(taskId);

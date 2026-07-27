@@ -99,10 +99,11 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.VH> {
             h.dot.setVisibility(View.GONE);
         }
 
-        // Thumbnail
-        if (t.imagePath != null) {
+        // Thumbnail (first attachment)
+        String firstImage = com.example.todolist.util.ImagePaths.first(t.imagePath);
+        if (firstImage != null) {
             h.thumb.setVisibility(View.VISIBLE);
-            Glide.with(h.itemView).load(new File(t.imagePath)).centerCrop().into(h.thumb);
+            Glide.with(h.itemView).load(new File(firstImage)).centerCrop().into(h.thumb);
         } else {
             h.thumb.setVisibility(View.GONE);
             Glide.with(h.itemView).clear(h.thumb);
