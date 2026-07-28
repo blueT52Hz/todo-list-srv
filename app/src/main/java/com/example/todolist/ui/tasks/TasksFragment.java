@@ -151,9 +151,19 @@ public class TasksFragment extends Fragment implements TaskAdapter.Listener {
 
     @Override
     public void onToggle(com.example.todolist.data.Task task) {
-        task.done = !task.done;
-        viewModel.update(task);
-        ReminderScheduler.schedule(requireContext(), task);
+        // Copy instead of mutating the list item in place; otherwise DiffUtil sees the
+        // already-flipped object as "unchanged" against the new DB list and skips rebind.
+        com.example.todolist.data.Task updated = new com.example.todolist.data.Task();
+        updated.id = task.id;
+        updated.title = task.title;
+        updated.note = task.note;
+        updated.topicId = task.topicId;
+        updated.dueAt = task.dueAt;
+        updated.imagePath = task.imagePath;
+        updated.createdAt = task.createdAt;
+        updated.done = !task.done;
+        viewModel.update(updated);
+        ReminderScheduler.schedule(requireContext(), updated);
     }
 
     @Override
