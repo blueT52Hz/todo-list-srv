@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TodoList - Thuyết trình tính năng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Premium warm-editorial system */
+    --cream:#F4F1E9;        /* light canvas */
+    --cream-2:#ECE7DA;
+    --paper:#FBFAF6;        /* surface */
+    --ink:#1B211C;          /* near-black forest */
+    --ink-soft:#3A423A;
+    --muted:#79817A;
+    --line:#E2DDD0;
+    --forest:#14735A;       /* rich emerald primary */
+    --forest-deep:#0E5C48;
+    --forest-tint:#E4EFE9;
+    --ochre:#C88A3C;        /* warm accent */
+    --ochre-soft:#EBD9BE;
+    --night:#0C1712;        /* dark slide base */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    background:#0A0F0C;color:var(--ink);overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  #deck{width:100vw;height:100vh;position:relative}
+
+  .slide{
+    position:absolute;inset:0;display:none;
+    padding:56px 72px 72px;
+    background:var(--cream);
+    flex-direction:column;
+    /* subtle grain + warm radial ambience */
+    background-image:
+      radial-gradient(1200px 600px at 88% -10%, rgba(200,138,60,.10), transparent 60%),
+      radial-gradient(900px 500px at -5% 110%, rgba(20,115,90,.10), transparent 55%);
+  }
+  .slide.active{display:flex}
+  .slide.active .reveal{animation:rise .55s cubic-bezier(.2,.7,.2,1) both}
+  .slide.active .reveal:nth-child(2){animation-delay:.06s}
+  .slide.active .reveal:nth-child(3){animation-delay:.12s}
+  .slide.active .reveal:nth-child(4){animation-delay:.18s}
+  .slide.active .col-phone{animation:floatIn .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:.15s}
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes floatIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+
+  /* Eyebrow */
+  .kicker{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    font-weight:600;color:var(--forest-deep);
+  }
+  .kicker::before{content:"";width:26px;height:2px;background:var(--ochre);border-radius:2px}
+
+  h1{font-family:'Montserrat',sans-serif;font-weight:800;font-size:clamp(3rem,6vw,5rem);line-height:1.03;letter-spacing:-.02em;color:var(--ink)}
+  h2{font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(2rem,3.6vw,3rem);line-height:1.1;letter-spacing:-.02em;color:var(--ink)}
+  .accent-bar{width:56px;height:4px;border-radius:4px;background:var(--ochre);margin:18px 0 26px}
+  .lead{font-size:19px;color:var(--ink-soft);max-width:640px;line-height:1.55;font-weight:400}
+
+  /* Two-column feature */
+  .cols{display:flex;gap:56px;flex:1;align-items:center;justify-content:center;
+    width:100%;max-width:1000px;margin:0 auto}
+  .col-text{flex:0 1 520px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+  .col-phone{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:16px}
+
+  ul.feat{list-style:none;margin-top:6px}
+  ul.feat li{
+    position:relative;padding:13px 0 13px 36px;font-size:18px;color:var(--ink);
+    border-bottom:1px solid var(--line);line-height:1.45;font-weight:400;
+  }
+  ul.feat li:last-child{border-bottom:none}
+  ul.feat li::before{
+    content:"";position:absolute;left:2px;top:19px;width:16px;height:16px;
+    border-radius:5px;background:var(--forest-tint);border:1.5px solid var(--forest);
+  }
+  ul.feat li::after{
+    content:"";position:absolute;left:7px;top:23px;width:6px;height:6px;
+    border-radius:50%;background:var(--forest);
+  }
+  ul.feat li b{font-weight:600;color:var(--forest-deep)}
+  ul.feat li small{display:block;color:var(--muted);font-size:14px;margin-top:3px;font-weight:400}
+
+  /* Overview cards */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px;flex:1;align-content:center;
+    width:100%;max-width:1000px;margin-left:auto;margin-right:auto}
+  .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:20px;
+    padding:26px 24px;box-shadow:0 10px 26px rgba(27,33,28,.05);
+    transition:transform .4s ease, box-shadow .4s ease;
+  }
+  .card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(27,33,28,.10)}
+  .card .idx{font-family:'Montserrat',sans-serif;font-size:15px;color:var(--ochre);font-weight:700;letter-spacing:.05em}
+  .card h3{font-size:20px;margin:12px 0 8px;color:var(--ink);font-weight:600}
+  .card p{font-size:14.5px;color:var(--muted);line-height:1.5}
+
+  /* Phone frame - screenshot ratio 9:19.5 */
+  .phone{
+    width:274px;aspect-ratio:9/19.5;background:var(--paper);
+    border:11px solid #10161200;border-radius:42px;
+    box-shadow:0 0 0 2px #0C1712, 0 30px 60px rgba(12,23,18,.35), inset 0 0 0 6px #0C1712;
+    position:relative;overflow:hidden;
+  }
+  .phone::before{ /* notch */
+    content:"";position:absolute;top:12px;left:50%;transform:translateX(-50%);
+    width:96px;height:8px;border-radius:5px;background:#0C1712;z-index:3;
+  }
+  .phone .ph-inner{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;
+    background:
+      radial-gradient(120% 60% at 50% 0%, var(--forest-tint), transparent 60%),
+      linear-gradient(180deg,#FCFBF7,#F1EEE5);
+  }
+  .ph-icon{
+    width:56px;height:56px;border-radius:16px;display:grid;place-items:center;
+    background:var(--forest);color:#fff;font-size:24px;font-weight:600;
+    box-shadow:0 8px 20px rgba(20,115,90,.35);
+  }
+  .ph-name{
+    font-family:'Montserrat',monospace;font-size:12.5px;font-weight:500;color:var(--forest-deep);letter-spacing:.02em;
+    background:#fff;border:1px dashed var(--forest);border-radius:9px;padding:7px 11px;word-break:break-all;
+  }
+  .ph-hint{font-size:11.5px;color:var(--muted)}
+  .phone img{width:100%;height:100%;object-fit:cover}
+  .cap{font-size:13px;color:var(--muted);letter-spacing:.02em}
+  .cap b{color:var(--ink);font-weight:600}
+
+  /* Title & closing slides - dark cinematic */
+  .dark{
+    background:
+      radial-gradient(900px 500px at 15% 15%, rgba(20,115,90,.35), transparent 60%),
+      radial-gradient(1000px 600px at 90% 90%, rgba(200,138,60,.22), transparent 55%),
+      linear-gradient(160deg,#0E1B15 0%, #0A130E 100%);
+    color:#F4F1E9;justify-content:center;
+  }
+  .dark .kicker{color:#E9CFA3}
+  .dark .kicker::before{background:var(--ochre)}
+  .dark h1{color:#F7F4EC}
+  .dark .lead{color:rgba(244,241,233,.82)}
+  .dark .accent-bar{background:var(--ochre)}
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");}
+  .tag-row{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+  .tag{
+    display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;
+    color:#F4F1E9;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+    padding:10px 16px;border-radius:100px;backdrop-filter:blur(6px);
+  }
+  .tag i{width:7px;height:7px;border-radius:50%;background:var(--ochre);display:inline-block}
+
+  /* Team block (title slide) */
+  .team{margin-top:40px;padding-top:26px;border-top:1px solid rgba(255,255,255,.14);max-width:640px}
+  .team-head{font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:#E9CFA3}
+  .team-members{display:flex;flex-wrap:wrap;gap:14px 28px;margin-top:12px}
+  .member{position:relative;font-size:18px;font-weight:600;color:#F7F4EC;padding-left:20px}
+  .member::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+    width:9px;height:9px;border-radius:3px;background:var(--forest);box-shadow:0 0 0 3px rgba(20,115,90,.25)}
+
+  /* Tech slide */
+  .tech-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px 56px;margin-top:12px;flex:1;align-content:center;
+    width:100%;max-width:920px;margin-left:auto;margin-right:auto}
+  .tech-row{display:flex;gap:18px;align-items:baseline;padding:15px 0;border-bottom:1px solid var(--line)}
+  .tech-row .t-k{font-weight:600;color:var(--forest-deep);min-width:130px;font-size:16px}
+  .tech-row .t-v{color:var(--ink-soft);font-size:15.5px;line-height:1.45}
+
+  /* Footer */
+  .foot{position:absolute;bottom:22px;left:72px;right:72px;display:flex;justify-content:center;
+    align-items:center;font-size:12.5px;color:var(--muted);letter-spacing:.04em}
+  .foot .brand{position:absolute;left:0;font-weight:700;color:var(--forest-deep);
+    display:flex;align-items:center;gap:8px}
+  .foot .brand::before{content:"";width:9px;height:9px;border-radius:3px;background:var(--forest)}
+  .dark .foot .brand{color:#E9CFA3}.dark .foot .brand::before{background:var(--ochre)}
+  .dark .foot{color:rgba(244,241,233,.55)}
+  .dots{display:flex;gap:6px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--line);transition:all .3s ease}
+  .dot.on{background:var(--forest);width:22px;border-radius:5px}
+  .dark .dot{background:rgba(255,255,255,.2)}.dark .dot.on{background:var(--ochre)}
+
+  .nav-btns{position:fixed;bottom:20px;right:22px;display:flex;gap:10px;z-index:50}
+  .nav-btns button{
+    width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;
+    background:var(--forest);color:#fff;font-size:20px;font-weight:600;
+    box-shadow:0 6px 18px rgba(14,92,72,.4);transition:background .25s,transform .2s}
+  .nav-btns button:hover{background:var(--forest-deep);transform:translateY(-2px)}
+  .counter{position:fixed;top:22px;right:26px;font-size:12.5px;color:var(--muted);
+    letter-spacing:.1em;font-weight:500;z-index:50}
+  .counter b{color:var(--forest);font-family:'Montserrat',sans-serif;font-weight:700}
+</style>
+</head>
+<body>
+<div id="deck">
+
+  <!-- 1. TITLE -->
+  <section class="slide dark active">
+    <div class="grain"></div>
+    <div class="kicker reveal">Ứng dụng Android · Java</div>
+    <h1 class="reveal" style="max-width:14ch;margin-top:14px">TodoList</h1>
+    <div class="accent-bar reveal"></div>
+    <p class="lead reveal">Quản lý công việc cá nhân - tạo việc, phân loại theo danh mục, đặt lịch nhắc và theo dõi ngay trên màn hình chính.</p>
+    <div class="tag-row reveal">
+      <span class="tag"><i></i>Task</span>
+      <span class="tag"><i></i>Danh mục</span>
+      <span class="tag"><i></i>Nhắc nhở</span>
+      <span class="tag"><i></i>Widget</span>
+    </div>
+    <div class="team reveal">
+      <div class="team-head">Nhóm 6</div>
+      <div class="team-members">
+        <span class="member">Nguyễn Hoa Thanh Tùng</span>
+        <span class="member">Hà Mạnh Dũng</span>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span>Thuyết trình tính năng</span></div>
+  </section>
+
+  <!-- 2. OVERVIEW -->
+  <section class="slide">
+    <div class="kicker reveal">Tổng quan</div>
+    <h2 class="reveal" style="margin-top:12px">Sáu trụ cột của ứng dụng</h2>
+    <div class="accent-bar reveal"></div>
+    <div class="grid reveal">
+      <div class="card"><div class="idx">01</div><h3>Quản lý Task</h3><p>Tạo, sửa, xoá và đánh dấu hoàn thành công việc.</p></div>
+      <div class="card"><div class="idx">02</div><h3>Bộ lọc thông minh</h3><p>Lọc theo trạng thái, theo ngày và theo danh mục.</p></div>
+      <div class="card"><div class="idx">03</div><h3>Danh mục</h3><p>Nhóm công việc theo danh mục có gắn màu riêng.</p></div>
+      <div class="card"><div class="idx">04</div><h3>Đính kèm ảnh</h3><p>Gắn ảnh minh hoạ cho từng công việc.</p></div>
+      <div class="card"><div class="idx">05</div><h3>Nhắc nhở</h3><p>Thông báo đúng giờ, tự đặt lại sau khi khởi động máy.</p></div>
+      <div class="card"><div class="idx">06</div><h3>Widget</h3><p>Xem và tick việc ngay trên màn hình chính.</p></div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 3. TASKS + STATUS FILTER -->
+  <section class="slide">
+    <div class="cols">
+      <div class="col-text">
+        <div class="kicker reveal">Màn hình chính</div>
+        <h2 class="reveal" style="margin-top:12px">Danh sách công việc</h2>
+        <div class="accent-bar reveal"></div>
+        <ul class="feat reveal">
+          <li><b>Danh sách Task</b> hiển thị tiêu đề, danh mục, hạn và ảnh thu nhỏ</li>
+          <li><b>Bộ lọc trạng thái</b> dạng pill<small>Tất cả · Chưa xong · Đã xong</small></li>
+          <li><b>Đánh dấu hoàn thành</b> nhanh bằng một chạm</li>
+          <li><b>Nút thêm (FAB)</b> mở nhanh form tạo việc mới</li>
+          <li>Trạng thái rỗng gợi ý thêm công việc đầu tiên</li>
+        </ul>
+      </div>
+      <div class="col-phone">
+        <div class="phone"><div class="ph-inner">
+          <div class="ph-icon">TL</div>
+          <div class="ph-name">01-tasks-list.png</div>
+          <div class="ph-hint">Ảnh chụp màn hình Tab Tasks</div>
+        </div></div>
+        <div class="cap"><b>Tab Tasks</b></div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 4. DATE FILTER -->
+  <section class="slide">
+    <div class="cols">
+      <div class="col-phone">
+        <div class="phone"><div class="ph-inner">
+          <div class="ph-icon">31</div>
+          <div class="ph-name">02-date-picker.png</div>
+          <div class="ph-hint">Dialog chọn ngày (lịch)</div>
+        </div></div>
+        <div class="cap"><b>Bộ chọn ngày</b></div>
+      </div>
+      <div class="col-text">
+        <div class="kicker reveal">Bộ lọc</div>
+        <h2 class="reveal" style="margin-top:12px">Lọc theo ngày</h2>
+        <div class="accent-bar reveal"></div>
+        <ul class="feat reveal">
+          <li><b>Lịch tuỳ chỉnh</b> dạng lưới tháng, tự dựng trong app</li>
+          <li>Chuyển <b>tháng trước / tháng sau</b> linh hoạt</li>
+          <li>Chọn ngày để chỉ hiện các việc <b>đến hạn ngày đó</b></li>
+          <li><b>Xoá ngày</b> để quay lại xem toàn bộ</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 5. CATEGORY FILTER -->
+  <section class="slide">
+    <div class="cols">
+      <div class="col-text">
+        <div class="kicker reveal">Bộ lọc</div>
+        <h2 class="reveal" style="margin-top:12px">Lọc theo danh mục</h2>
+        <div class="accent-bar reveal"></div>
+        <ul class="feat reveal">
+          <li><b>Chọn nhiều danh mục</b> cùng lúc (multi-select)</li>
+          <li><b>Ô tìm kiếm</b> danh mục nhanh</li>
+          <li>Hiển thị <b>số danh mục</b> đang chọn</li>
+          <li><b>Xoá lựa chọn / Xoá bộ lọc</b> chỉ với một chạm</li>
+        </ul>
+      </div>
+      <div class="col-phone">
+        <div class="phone"><div class="ph-inner">
+          <div class="ph-icon">▤</div>
+          <div class="ph-name">03-category-filter.png</div>
+          <div class="ph-hint">Bottom sheet lọc danh mục</div>
+        </div></div>
+        <div class="cap"><b>Lọc danh mục</b></div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 6. ADD / EDIT TASK -->
+  <section class="slide">
+    <div class="cols">
+      <div class="col-phone">
+        <div class="phone"><div class="ph-inner">
+          <div class="ph-icon">＋</div>
+          <div class="ph-name">04-add-edit-task.png</div>
+          <div class="ph-hint">Bottom sheet tạo / sửa task</div>
+        </div></div>
+        <div class="cap"><b>Form Task</b></div>
+      </div>
+      <div class="col-text">
+        <div class="kicker reveal">Tạo và chỉnh sửa</div>
+        <h2 class="reveal" style="margin-top:12px">Thêm / Sửa công việc</h2>
+        <div class="accent-bar reveal"></div>
+        <ul class="feat reveal">
+          <li><b>Bottom sheet</b> gọn gàng, cuộn mượt</li>
+          <li>Nhập <b>tiêu đề</b> công việc</li>
+          <li>Chọn <b>danh mục</b> bằng chip</li>
+          <li>Đặt <b>hạn và nhắc nhở</b> (ngày giờ)</li>
+          <li><b>Đính kèm ảnh</b> ngay trong form</li>
+          <li>Lưu là <b>tự lên lịch thông báo</b></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 7. TASK DETAIL + ATTACHMENT -->
+  <section class="slide">
+    <div class="cols">
+      <div class="col-text">
+        <div class="kicker reveal">Chi tiết</div>
+        <h2 class="reveal" style="margin-top:12px">Chi tiết công việc &amp; ảnh</h2>
+        <div class="accent-bar reveal"></div>
+        <ul class="feat reveal">
+          <li><b>Màn hình chi tiết riêng</b> cho mỗi công việc</li>
+          <li>Xem đầy đủ <b>tiêu đề, ghi chú, hạn, danh mục</b></li>
+          <li><b>Ảnh đính kèm</b> lưu nội bộ, hiển thị bo góc</li>
+          <li>Truy cập <b>sửa / xoá</b> nhanh</li>
+        </ul>
+      </div>
+      <div class="col-phone">
+        <div class="phone"><div class="ph-inner">
+          <div class="ph-icon">◎</div>
+          <div class="ph-name">05-task-detail.png</div>
+          <div class="ph-hint">Màn hình chi tiết task</div>
+        </div></div>
+        <div class="cap"><b>Chi tiết Task</b></div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 8. CATEGORIES -->
+  <section class="slide">
+    <div class="cols">
+      <div class="col-phone">
+        <div class="phone"><div class="ph-inner">
+          <div class="ph-icon">◧</div>
+          <div class="ph-name">06-categories.png</div>
+          <div class="ph-hint">Tab Categories</div>
+        </div></div>
+        <div class="cap"><b>Tab Categories</b></div>
+      </div>
+      <div class="col-text">
+        <div class="kicker reveal">Danh mục</div>
+        <h2 class="reveal" style="margin-top:12px">Quản lý danh mục</h2>
+        <div class="accent-bar reveal"></div>
+        <ul class="feat reveal">
+          <li><b>Tạo / sửa danh mục</b> qua bottom sheet</li>
+          <li>Mỗi danh mục có <b>tên và màu riêng</b></li>
+          <li>Hiển thị <b>số lượng danh mục</b></li>
+          <li>Là nền tảng cho <b>phân loại và lọc</b> công việc</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 9. REMINDERS -->
+  <section class="slide">
+    <div class="cols">
+      <div class="col-text">
+        <div class="kicker reveal">Nhắc nhở</div>
+        <h2 class="reveal" style="margin-top:12px">Thông báo &amp; nhắc lịch</h2>
+        <div class="accent-bar reveal"></div>
+        <ul class="feat reveal">
+          <li><b>Báo đúng giờ</b> bằng exact alarm (AlarmManager)</li>
+          <li>Tự <b>huỷ nhắc</b> khi việc đã xong hoặc hết hạn</li>
+          <li><b>Tự đặt lại lịch</b> sau khi khởi động lại máy</li>
+          <li><b>Dự phòng</b> báo gần đúng nếu thiếu quyền exact alarm</li>
+        </ul>
+      </div>
+      <div class="col-phone">
+        <div class="phone"><div class="ph-inner">
+          <div class="ph-icon">♦</div>
+          <div class="ph-name">07-notification.png</div>
+          <div class="ph-hint">Thông báo nhắc việc</div>
+        </div></div>
+        <div class="cap"><b>Thông báo</b></div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 10. WIDGET -->
+  <section class="slide">
+    <div class="cols">
+      <div class="col-phone">
+        <div class="phone"><div class="ph-inner">
+          <div class="ph-icon">▦</div>
+          <div class="ph-name">08-widget.png</div>
+          <div class="ph-hint">Widget trên home screen</div>
+        </div></div>
+        <div class="cap"><b>Home Widget</b></div>
+      </div>
+      <div class="col-text">
+        <div class="kicker reveal">Màn hình chính</div>
+        <h2 class="reveal" style="margin-top:12px">Widget màn hình chính</h2>
+        <div class="accent-bar reveal"></div>
+        <ul class="feat reveal">
+          <li><b>Danh sách việc</b> hiển thị trực tiếp trên home screen</li>
+          <li><b>Tick hoàn thành</b> ngay trên widget, không cần mở app</li>
+          <li>Tự <b>cập nhật</b> khi dữ liệu thay đổi</li>
+          <li>Thêm widget nhanh từ <b>Cài đặt</b></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 11. SETTINGS -->
+  <section class="slide">
+    <div class="cols">
+      <div class="col-text">
+        <div class="kicker reveal">Cài đặt</div>
+        <h2 class="reveal" style="margin-top:12px">Cài đặt ứng dụng</h2>
+        <div class="accent-bar reveal"></div>
+        <ul class="feat reveal">
+          <li><b>Bật / tắt thông báo</b> bằng công tắc</li>
+          <li>Gửi <b>thông báo thử</b> để kiểm tra</li>
+          <li><b>Thêm widget</b> vào màn hình chính</li>
+          <li>Nhắc <b>cấp quyền thông báo</b> khi cần</li>
+        </ul>
+      </div>
+      <div class="col-phone">
+        <div class="phone"><div class="ph-inner">
+          <div class="ph-icon">⚙</div>
+          <div class="ph-name">09-settings.png</div>
+          <div class="ph-hint">Tab Settings</div>
+        </div></div>
+        <div class="cap"><b>Tab Settings</b></div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 12. TECH / ARCHITECTURE -->
+  <section class="slide">
+    <div class="kicker reveal">Bên dưới lớp giao diện</div>
+    <h2 class="reveal" style="margin-top:12px">Kiến trúc &amp; công nghệ</h2>
+    <div class="accent-bar reveal"></div>
+    <div class="tech-grid reveal">
+      <div class="tech-row"><div class="t-k">Ngôn ngữ</div><div class="t-v">Java (Android SDK)</div></div>
+      <div class="tech-row"><div class="t-k">Kiến trúc</div><div class="t-v">Fragment + ViewModel, điều hướng 3 tab</div></div>
+      <div class="tech-row"><div class="t-k">Dữ liệu</div><div class="t-v">Room Database - bảng Tasks &amp; Topics</div></div>
+      <div class="tech-row"><div class="t-k">Giao diện</div><div class="t-v">Material Components, thanh nav dạng pill nổi</div></div>
+      <div class="tech-row"><div class="t-k">Nhắc nhở</div><div class="t-v">AlarmManager + BroadcastReceiver + Boot</div></div>
+      <div class="tech-row"><div class="t-k">Widget</div><div class="t-v">AppWidgetProvider + RemoteViewsService</div></div>
+      <div class="tech-row"><div class="t-k">Ảnh</div><div class="t-v">Lưu nội bộ, hiển thị thumbnail</div></div>
+      <div class="tech-row"><div class="t-k">Quyền</div><div class="t-v">Notifications, Exact Alarm, Boot</div></div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 13. CLOSING -->
+  <section class="slide dark">
+    <div class="grain"></div>
+    <div class="kicker reveal">Tổng kết</div>
+    <h1 class="reveal" style="max-width:18ch;margin-top:14px">Cảm ơn đã lắng nghe</h1>
+    <div class="accent-bar reveal"></div>
+    <p class="lead reveal">TodoList - quản lý công việc gọn nhẹ mà đầy đủ: task, danh mục, ảnh, nhắc nhở đúng giờ và widget màn hình chính.</p>
+    <div class="tag-row reveal"><span class="tag"><i></i>Hỏi &amp; đáp</span></div>
+    <div class="foot"><span class="brand">TodoList</span><span>Thuyết trình tính năng</span></div>
+  </section>
+
+</div>
+
+<div class="counter" id="counter"><b>1</b> / 13</div>
+<div class="nav-btns">
+  <button onclick="go(-1)" aria-label="Trước">‹</button>
+  <button onclick="go(1)" aria-label="Sau">›</button>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  const counter=document.getElementById('counter');
+  document.querySelectorAll('.dots').forEach(d=>{
+    d.innerHTML=slides.map(()=>'<span class="dot"></span>').join('');
+  });
+  function render(){
+    slides.forEach((s,n)=>s.classList.toggle('active',n===i));
+    counter.innerHTML='<b>'+(i+1)+'</b> / '+slides.length;
+    document.querySelectorAll('.dots').forEach(d=>{
+      [...d.children].forEach((dot,n)=>dot.classList.toggle('on',n===i));
+    });
+  }
+  function go(d){i=Math.min(slides.length-1,Math.max(0,i+d));render();}
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){go(1);e.preventDefault();}
+    if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){go(-1);e.preventDefault();}
+    if(e.key==='Home'){i=0;render();}
+    if(e.key==='End'){i=slides.length-1;render();}
+  });
+  render();
+</script>
+</body>
+</html>

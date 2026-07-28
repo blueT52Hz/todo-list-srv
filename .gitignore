@@ -25,3 +25,7 @@ skills-lock.json
 CLAUDE.md
 AGENTS.md
 .superpowers/
+
+# JVM crash logs
+hs_err_pid*.log
+replay_pid*.log
