@@ -126,6 +126,7 @@ public class AddEditTaskBottomSheet extends BottomSheetDialogFragment
         imagePaths.addAll(originalPaths);
         if (attachAdapter != null) attachAdapter.submit(imagePaths);
         b.etTitle.setText(t.title);
+        b.etNote.setText(t.note);
         setDue(t.dueAt);
         // re-check the matching topic chip if chips already built
         checkSelectedChip();
@@ -222,8 +223,10 @@ public class AddEditTaskBottomSheet extends BottomSheetDialogFragment
             b.etTitle.setError(getString(R.string.title));
             return;
         }
+        String note = b.etNote.getText() == null ? "" : b.etNote.getText().toString().trim();
         Task t = new Task();
         t.title = title;
+        t.note = TextUtils.isEmpty(note) ? null : note;
         t.topicId = selectedTopicId;
         t.dueAt = selectedDueAt;
         t.imagePath = ImagePaths.join(imagePaths);
