@@ -171,6 +171,70 @@
   .tech-row .t-k{font-weight:600;color:var(--forest-deep);min-width:130px;font-size:16px}
   .tech-row .t-v{color:var(--ink-soft);font-size:15.5px;line-height:1.45}
 
+  /* Intro + audience */
+  .center-head{text-align:center;align-items:center}
+  .center-head .accent-bar{margin-left:auto;margin-right:auto}
+  .center-head .lead{margin-left:auto;margin-right:auto;text-align:center;max-width:820px}
+  .sub-head{font-size:20px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;
+    color:var(--forest-deep);text-align:center;margin:30px 0 16px}
+  .audience{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:100%;max-width:1000px;margin:0 auto}
+  .aud-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px 22px;
+    box-shadow:0 10px 26px rgba(27,33,28,.05)}
+  .aud-card .a-ico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;
+    background:var(--forest-tint);color:var(--forest-deep);font-size:22px;margin-bottom:12px}
+  .aud-card h3{font-size:18px;color:var(--ink);font-weight:600;margin-bottom:6px}
+  .aud-card p{font-size:14px;color:var(--muted);line-height:1.5}
+
+  /* System design - architecture layers */
+  .arch{display:flex;flex-direction:column;gap:10px;width:100%;max-width:900px;margin:0 auto;flex:1;justify-content:center}
+  .layer{display:flex;align-items:center;gap:22px;background:var(--paper);border:1px solid var(--line);
+    border-radius:16px;padding:16px 24px;box-shadow:0 8px 20px rgba(27,33,28,.05)}
+  .layer .l-name{min-width:170px;font-weight:700;color:var(--forest-deep);font-size:15.5px}
+  .layer .l-name small{display:block;color:var(--muted);font-weight:500;font-size:12px;letter-spacing:.04em;margin-top:2px}
+  .layer .l-body{color:var(--ink-soft);font-size:14.5px;line-height:1.45}
+  .layer .l-body b{color:var(--ink);font-weight:600}
+  .arch .arrow{align-self:center;color:var(--ochre);font-size:16px;line-height:1;margin:-2px 0}
+
+  /* ERD - database design */
+  .erd{display:flex;align-items:center;justify-content:center;gap:40px;flex:1;width:100%;max-width:960px;
+    margin:0 auto;flex-wrap:wrap}
+  .table-box{background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    min-width:310px;box-shadow:0 12px 30px rgba(27,33,28,.07)}
+  .table-box .t-title{background:var(--forest);color:#fff;font-weight:700;padding:12px 18px;
+    font-size:15.5px;letter-spacing:.03em;display:flex;justify-content:space-between;align-items:center}
+  .table-box .t-title span{font-weight:500;font-size:11.5px;opacity:.85}
+  .table-box .t-col{display:flex;justify-content:space-between;gap:20px;padding:9px 18px;
+    border-bottom:1px solid var(--line);font-size:13.5px}
+  .table-box .t-col:last-child{border-bottom:none}
+  .table-box .t-col .c-name{font-weight:600;color:var(--ink)}
+  .table-box .t-col .c-type{color:var(--muted);font-family:monospace;font-size:12px}
+  .table-box .t-col.pk{background:rgba(200,138,60,.08)}
+  .table-box .t-col.pk .c-name{color:var(--ochre)}
+  .table-box .t-col.fk .c-name{color:var(--forest-deep)}
+  .erd-rel{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:70px}
+  .erd-rel .r-card{font-size:26px;font-weight:800;color:var(--forest);letter-spacing:.05em}
+  .erd-rel .r-label{font-size:11px;color:var(--muted);font-weight:600;text-align:center;line-height:1.3}
+
+  /* Problem / solution split */
+  .split{display:flex;flex-direction:column;gap:14px;width:100%;max-width:980px;margin:0 auto;flex:1;justify-content:center}
+  .ps-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .ps-cell{border-radius:14px;padding:14px 20px;border:1px solid var(--line)}
+  .ps-problem{background:#FBEEE4;border-color:var(--ochre-soft)}
+  .ps-solution{background:var(--forest-tint);border-color:#BEE0D3}
+  .ps-cell .ps-k{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:5px}
+  .ps-problem .ps-k{color:var(--ochre)}
+  .ps-solution .ps-k{color:var(--forest-deep)}
+  .ps-cell p{font-size:14.5px;color:var(--ink-soft);line-height:1.45}
+  .ps-cell p b{color:var(--ink);font-weight:600}
+
+  /* Live demo slide */
+  .demo-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:22px}
+  .demo-badge{width:118px;height:118px;border-radius:32px;display:grid;place-items:center;
+    background:var(--forest);color:#fff;font-size:56px;box-shadow:0 20px 44px rgba(20,115,90,.45)}
+  .demo-steps{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:6px;max-width:760px}
+  .demo-step{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);color:#F4F1E9;
+    padding:9px 18px;border-radius:100px;font-size:14px;font-weight:500}
+
   /* Footer */
   .foot{position:absolute;bottom:22px;left:72px;right:72px;display:flex;justify-content:center;
     align-items:center;font-size:12.5px;color:var(--muted);letter-spacing:.04em}
@@ -221,10 +285,37 @@
     <div class="foot"><span class="brand">TodoList</span><span>Thuyết trình tính năng</span></div>
   </section>
 
-  <!-- 2. OVERVIEW -->
+  <!-- 2. GIỚI THIỆU + ĐỐI TƯỢNG SỬ DỤNG -->
   <section class="slide">
-    <div class="kicker reveal">Tổng quan</div>
-    <h2 class="reveal" style="margin-top:12px">Sáu trụ cột của ứng dụng</h2>
+    <div class="kicker reveal">Giới thiệu</div>
+    <h2 class="reveal" style="margin-top:12px">TodoList là gì?</h2>
+    <div class="accent-bar reveal"></div>
+    <p class="lead reveal">Ứng dụng Android quản lý công việc cá nhân, hoạt động <b>hoàn toàn offline</b>, dữ liệu lưu cục bộ bằng Room. Giúp người dùng ghi lại việc cần làm, phân loại theo danh mục, đặt hạn - nhắc lịch đúng giờ và theo dõi nhanh qua widget màn hình chính.</p>
+    <div class="sub-head reveal" style="text-align:left">Đối tượng sử dụng</div>
+    <div class="audience reveal">
+      <div class="aud-card">
+        <div class="a-ico">🎓</div>
+        <h3>Học sinh &amp; Sinh viên</h3>
+        <p>Theo dõi deadline, lịch học, bài tập theo từng môn qua danh mục.</p>
+      </div>
+      <div class="aud-card">
+        <div class="a-ico">💼</div>
+        <h3>Nhân viên văn phòng</h3>
+        <p>Quản lý task công việc hằng ngày, nhắc họp và các mốc hạn.</p>
+      </div>
+      <div class="aud-card">
+        <div class="a-ico">🏠</div>
+        <h3>Người dùng cá nhân</h3>
+        <p>Ghi việc nhà, mua sắm, thói quen và các nhắc nhở đời thường.</p>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 3. CHỨC NĂNG CHÍNH - OVERVIEW -->
+  <section class="slide">
+    <div class="kicker reveal">Chức năng chính</div>
+    <h2 class="reveal" style="margin-top:12px">6 tính năng chính</h2>
     <div class="accent-bar reveal"></div>
     <div class="grid reveal">
       <div class="card"><div class="idx">01</div><h3>Quản lý Task</h3><p>Tạo, sửa, xoá và đánh dấu hoàn thành công việc.</p></div>
@@ -237,13 +328,13 @@
     <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
   </section>
 
-  <!-- 3. TASKS + STATUS FILTER -->
+  <!-- 4. TASKS + STATUS FILTER -->
   <section class="slide">
+    <div class="kicker reveal">Chức năng · Ảnh demo</div>
+    <h2 class="reveal" style="margin-top:12px">Danh sách công việc</h2>
+    <div class="accent-bar reveal"></div>
     <div class="cols">
       <div class="col-text">
-        <div class="kicker reveal">Màn hình chính</div>
-        <h2 class="reveal" style="margin-top:12px">Danh sách công việc</h2>
-        <div class="accent-bar reveal"></div>
         <ul class="feat reveal">
           <li><b>Danh sách Task</b> hiển thị tiêu đề, danh mục, hạn và ảnh thu nhỏ</li>
           <li><b>Bộ lọc trạng thái</b> dạng pill<small>Tất cả · Chưa xong · Đã xong</small></li>
@@ -264,9 +355,20 @@
     <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
   </section>
 
-  <!-- 4. DATE FILTER -->
+  <!-- 5. DATE FILTER -->
   <section class="slide">
+    <div class="kicker reveal">Chức năng · Ảnh demo</div>
+    <h2 class="reveal" style="margin-top:12px">Lọc theo ngày</h2>
+    <div class="accent-bar reveal"></div>
     <div class="cols">
+      <div class="col-text">
+        <ul class="feat reveal">
+          <li><b>Lịch tuỳ chỉnh</b> dạng lưới tháng, tự dựng trong app</li>
+          <li>Chuyển <b>tháng trước / tháng sau</b> linh hoạt</li>
+          <li>Chọn ngày để chỉ hiện các việc <b>đến hạn ngày đó</b></li>
+          <li><b>Xoá ngày</b> để quay lại xem toàn bộ</li>
+        </ul>
+      </div>
       <div class="col-phone">
         <div class="phone"><div class="ph-inner">
           <div class="ph-icon">31</div>
@@ -275,28 +377,17 @@
         </div></div>
         <div class="cap"><b>Bộ chọn ngày</b></div>
       </div>
-      <div class="col-text">
-        <div class="kicker reveal">Bộ lọc</div>
-        <h2 class="reveal" style="margin-top:12px">Lọc theo ngày</h2>
-        <div class="accent-bar reveal"></div>
-        <ul class="feat reveal">
-          <li><b>Lịch tuỳ chỉnh</b> dạng lưới tháng, tự dựng trong app</li>
-          <li>Chuyển <b>tháng trước / tháng sau</b> linh hoạt</li>
-          <li>Chọn ngày để chỉ hiện các việc <b>đến hạn ngày đó</b></li>
-          <li><b>Xoá ngày</b> để quay lại xem toàn bộ</li>
-        </ul>
-      </div>
     </div>
     <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
   </section>
 
-  <!-- 5. CATEGORY FILTER -->
+  <!-- 6. CATEGORY FILTER -->
   <section class="slide">
+    <div class="kicker reveal">Chức năng · Ảnh demo</div>
+    <h2 class="reveal" style="margin-top:12px">Lọc theo danh mục</h2>
+    <div class="accent-bar reveal"></div>
     <div class="cols">
       <div class="col-text">
-        <div class="kicker reveal">Bộ lọc</div>
-        <h2 class="reveal" style="margin-top:12px">Lọc theo danh mục</h2>
-        <div class="accent-bar reveal"></div>
         <ul class="feat reveal">
           <li><b>Chọn nhiều danh mục</b> cùng lúc (multi-select)</li>
           <li><b>Ô tìm kiếm</b> danh mục nhanh</li>
@@ -316,21 +407,13 @@
     <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
   </section>
 
-  <!-- 6. ADD / EDIT TASK -->
+  <!-- 7. ADD / EDIT TASK -->
   <section class="slide">
+    <div class="kicker reveal">Chức năng · Ảnh demo</div>
+    <h2 class="reveal" style="margin-top:12px">Thêm / Sửa công việc</h2>
+    <div class="accent-bar reveal"></div>
     <div class="cols">
-      <div class="col-phone">
-        <div class="phone"><div class="ph-inner">
-          <div class="ph-icon">＋</div>
-          <div class="ph-name">04-add-edit-task.png</div>
-          <div class="ph-hint">Bottom sheet tạo / sửa task</div>
-        </div></div>
-        <div class="cap"><b>Form Task</b></div>
-      </div>
       <div class="col-text">
-        <div class="kicker reveal">Tạo và chỉnh sửa</div>
-        <h2 class="reveal" style="margin-top:12px">Thêm / Sửa công việc</h2>
-        <div class="accent-bar reveal"></div>
         <ul class="feat reveal">
           <li><b>Bottom sheet</b> gọn gàng, cuộn mượt</li>
           <li>Nhập <b>tiêu đề</b> công việc</li>
@@ -341,17 +424,25 @@
           <li>Lưu là <b>tự lên lịch thông báo</b></li>
         </ul>
       </div>
+      <div class="col-phone">
+        <div class="phone"><div class="ph-inner">
+          <div class="ph-icon">＋</div>
+          <div class="ph-name">04-add-edit-task.png</div>
+          <div class="ph-hint">Bottom sheet tạo / sửa task</div>
+        </div></div>
+        <div class="cap"><b>Form Task</b></div>
+      </div>
     </div>
     <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
   </section>
 
-  <!-- 7. TASK DETAIL + ATTACHMENT -->
+  <!-- 8. TASK DETAIL + ATTACHMENT -->
   <section class="slide">
+    <div class="kicker reveal">Chức năng · Ảnh demo</div>
+    <h2 class="reveal" style="margin-top:12px">Chi tiết công việc &amp; ảnh</h2>
+    <div class="accent-bar reveal"></div>
     <div class="cols">
       <div class="col-text">
-        <div class="kicker reveal">Chi tiết</div>
-        <h2 class="reveal" style="margin-top:12px">Chi tiết công việc &amp; ảnh</h2>
-        <div class="accent-bar reveal"></div>
         <ul class="feat reveal">
           <li><b>Màn hình chi tiết riêng</b> cho mỗi công việc</li>
           <li>Xem đầy đủ <b>tiêu đề, ghi chú, hạn, danh mục</b></li>
@@ -371,9 +462,20 @@
     <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
   </section>
 
-  <!-- 8. CATEGORIES -->
+  <!-- 9. CATEGORIES -->
   <section class="slide">
+    <div class="kicker reveal">Chức năng · Ảnh demo</div>
+    <h2 class="reveal" style="margin-top:12px">Quản lý danh mục</h2>
+    <div class="accent-bar reveal"></div>
     <div class="cols">
+      <div class="col-text">
+        <ul class="feat reveal">
+          <li><b>Tạo / sửa danh mục</b> qua bottom sheet</li>
+          <li>Mỗi danh mục có <b>tên và màu riêng</b></li>
+          <li>Hiển thị <b>số lượng danh mục</b></li>
+          <li>Là nền tảng cho <b>phân loại và lọc</b> công việc</li>
+        </ul>
+      </div>
       <div class="col-phone">
         <div class="phone"><div class="ph-inner">
           <div class="ph-icon">◧</div>
@@ -382,28 +484,17 @@
         </div></div>
         <div class="cap"><b>Tab Categories</b></div>
       </div>
-      <div class="col-text">
-        <div class="kicker reveal">Danh mục</div>
-        <h2 class="reveal" style="margin-top:12px">Quản lý danh mục</h2>
-        <div class="accent-bar reveal"></div>
-        <ul class="feat reveal">
-          <li><b>Tạo / sửa danh mục</b> qua bottom sheet</li>
-          <li>Mỗi danh mục có <b>tên và màu riêng</b></li>
-          <li>Hiển thị <b>số lượng danh mục</b></li>
-          <li>Là nền tảng cho <b>phân loại và lọc</b> công việc</li>
-        </ul>
-      </div>
     </div>
     <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
   </section>
 
-  <!-- 9. REMINDERS -->
+  <!-- 10. REMINDERS -->
   <section class="slide">
+    <div class="kicker reveal">Chức năng · Ảnh demo</div>
+    <h2 class="reveal" style="margin-top:12px">Thông báo &amp; nhắc lịch</h2>
+    <div class="accent-bar reveal"></div>
     <div class="cols">
       <div class="col-text">
-        <div class="kicker reveal">Nhắc nhở</div>
-        <h2 class="reveal" style="margin-top:12px">Thông báo &amp; nhắc lịch</h2>
-        <div class="accent-bar reveal"></div>
         <ul class="feat reveal">
           <li><b>Báo đúng giờ</b> bằng exact alarm (AlarmManager)</li>
           <li>Tự <b>huỷ nhắc</b> khi việc đã xong hoặc hết hạn</li>
@@ -423,9 +514,20 @@
     <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
   </section>
 
-  <!-- 10. WIDGET -->
+  <!-- 11. WIDGET -->
   <section class="slide">
+    <div class="kicker reveal">Chức năng · Ảnh demo</div>
+    <h2 class="reveal" style="margin-top:12px">Widget màn hình chính</h2>
+    <div class="accent-bar reveal"></div>
     <div class="cols">
+      <div class="col-text">
+        <ul class="feat reveal">
+          <li><b>Danh sách việc</b> hiển thị trực tiếp trên home screen</li>
+          <li><b>Tick hoàn thành</b> ngay trên widget, không cần mở app</li>
+          <li>Tự <b>cập nhật</b> khi dữ liệu thay đổi</li>
+          <li>Thêm widget nhanh từ <b>Cài đặt</b></li>
+        </ul>
+      </div>
       <div class="col-phone">
         <div class="phone"><div class="ph-inner">
           <div class="ph-icon">▦</div>
@@ -434,28 +536,17 @@
         </div></div>
         <div class="cap"><b>Home Widget</b></div>
       </div>
-      <div class="col-text">
-        <div class="kicker reveal">Màn hình chính</div>
-        <h2 class="reveal" style="margin-top:12px">Widget màn hình chính</h2>
-        <div class="accent-bar reveal"></div>
-        <ul class="feat reveal">
-          <li><b>Danh sách việc</b> hiển thị trực tiếp trên home screen</li>
-          <li><b>Tick hoàn thành</b> ngay trên widget, không cần mở app</li>
-          <li>Tự <b>cập nhật</b> khi dữ liệu thay đổi</li>
-          <li>Thêm widget nhanh từ <b>Cài đặt</b></li>
-        </ul>
-      </div>
     </div>
     <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
   </section>
 
-  <!-- 11. SETTINGS -->
+  <!-- 12. SETTINGS -->
   <section class="slide">
+    <div class="kicker reveal">Chức năng · Ảnh demo</div>
+    <h2 class="reveal" style="margin-top:12px">Cài đặt ứng dụng</h2>
+    <div class="accent-bar reveal"></div>
     <div class="cols">
       <div class="col-text">
-        <div class="kicker reveal">Cài đặt</div>
-        <h2 class="reveal" style="margin-top:12px">Cài đặt ứng dụng</h2>
-        <div class="accent-bar reveal"></div>
         <ul class="feat reveal">
           <li><b>Bật / tắt thông báo</b> bằng công tắc</li>
           <li>Gửi <b>thông báo thử</b> để kiểm tra</li>
@@ -475,10 +566,10 @@
     <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
   </section>
 
-  <!-- 12. TECH / ARCHITECTURE -->
+  <!-- 13. CÔNG NGHỆ SỬ DỤNG -->
   <section class="slide">
-    <div class="kicker reveal">Bên dưới lớp giao diện</div>
-    <h2 class="reveal" style="margin-top:12px">Kiến trúc &amp; công nghệ</h2>
+    <div class="kicker reveal">Công nghệ sử dụng</div>
+    <h2 class="reveal" style="margin-top:12px">Nền tảng &amp; thư viện</h2>
     <div class="accent-bar reveal"></div>
     <div class="tech-grid reveal">
       <div class="tech-row"><div class="t-k">Ngôn ngữ</div><div class="t-v">Java (Android SDK)</div></div>
@@ -488,25 +579,155 @@
       <div class="tech-row"><div class="t-k">Nhắc nhở</div><div class="t-v">AlarmManager + BroadcastReceiver + Boot</div></div>
       <div class="tech-row"><div class="t-k">Widget</div><div class="t-v">AppWidgetProvider + RemoteViewsService</div></div>
       <div class="tech-row"><div class="t-k">Ảnh</div><div class="t-v">Lưu nội bộ, hiển thị thumbnail</div></div>
-      <div class="tech-row"><div class="t-k">Quyền</div><div class="t-v">Notifications, Exact Alarm, Boot</div></div>
+      <div class="tech-row"><div class="t-k">Build</div><div class="t-v">Gradle + Version Catalog, AGP 8.13</div></div>
     </div>
     <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
   </section>
 
-  <!-- 13. CLOSING -->
+  <!-- 14. THIẾT KẾ HỆ THỐNG -->
+  <section class="slide">
+    <div class="kicker reveal">Thiết kế hệ thống</div>
+    <h2 class="reveal" style="margin-top:12px">Kiến trúc phân lớp</h2>
+    <div class="accent-bar reveal"></div>
+    <div class="arch reveal">
+      <div class="layer">
+        <div class="l-name">Giao diện<small>UI Layer</small></div>
+        <div class="l-body"><b>Fragment:</b> Tasks · Categories · Settings — RecyclerView + Adapter, Bottom sheet, Dialog lịch tuỳ chỉnh</div>
+      </div>
+      <div class="arrow">▼</div>
+      <div class="layer">
+        <div class="l-name">Điều khiển<small>ViewModel</small></div>
+        <div class="l-body"><b>ViewModel + LiveData</b> giữ trạng thái danh sách, tự phản ứng khi dữ liệu thay đổi</div>
+      </div>
+      <div class="arrow">▼</div>
+      <div class="layer">
+        <div class="l-name">Dữ liệu<small>Data Layer</small></div>
+        <div class="l-body"><b>Room DAO</b> (TaskDao, TopicDao) → <b>SQLite</b> (tasca.db) lưu cục bộ trên máy</div>
+      </div>
+      <div class="arrow">▼</div>
+      <div class="layer">
+        <div class="l-name">Nền &amp; hệ thống<small>Background</small></div>
+        <div class="l-body"><b>AlarmManager</b> nhắc đúng giờ · <b>BroadcastReceiver</b> đặt lại khi Boot · <b>AppWidgetProvider</b> cho widget</div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 15. THIẾT KẾ CSDL -->
+  <section class="slide">
+    <div class="kicker reveal">Thiết kế CSDL</div>
+    <h2 class="reveal" style="margin-top:12px">Lược đồ quan hệ (Room / SQLite)</h2>
+    <div class="accent-bar reveal"></div>
+    <div class="erd reveal">
+      <div class="table-box">
+        <div class="t-title">topics <span>danh mục</span></div>
+        <div class="t-col pk"><span class="c-name">id 🔑</span><span class="c-type">long · PK</span></div>
+        <div class="t-col"><span class="c-name">name</span><span class="c-type">String</span></div>
+        <div class="t-col"><span class="c-name">colorHex</span><span class="c-type">String</span></div>
+        <div class="t-col"><span class="c-name">createdAt</span><span class="c-type">long</span></div>
+      </div>
+      <div class="erd-rel">
+        <div class="r-card">1 — N</div>
+        <div class="r-label">một danh mục có<br>nhiều công việc</div>
+      </div>
+      <div class="table-box">
+        <div class="t-title">tasks <span>công việc</span></div>
+        <div class="t-col pk"><span class="c-name">id 🔑</span><span class="c-type">long · PK</span></div>
+        <div class="t-col"><span class="c-name">title</span><span class="c-type">String</span></div>
+        <div class="t-col"><span class="c-name">note</span><span class="c-type">String?</span></div>
+        <div class="t-col fk"><span class="c-name">topicId 🔗</span><span class="c-type">Long? · FK</span></div>
+        <div class="t-col"><span class="c-name">dueAt</span><span class="c-type">Long?</span></div>
+        <div class="t-col"><span class="c-name">done</span><span class="c-type">boolean</span></div>
+        <div class="t-col"><span class="c-name">imagePath</span><span class="c-type">String?</span></div>
+        <div class="t-col"><span class="c-name">createdAt</span><span class="c-type">long</span></div>
+      </div>
+    </div>
+    <p class="cap reveal" style="text-align:center;margin-top:6px">Khoá ngoại <b>topicId</b> tham chiếu <b>topics.id</b> · <b>onDelete = SET NULL</b> (xoá danh mục, task được giữ lại và bỏ danh mục)</p>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 16. DEMO TRỰC TIẾP -->
   <section class="slide dark">
     <div class="grain"></div>
-    <div class="kicker reveal">Tổng kết</div>
+    <div class="demo-center">
+      <div class="demo-badge reveal">▶</div>
+      <div class="kicker reveal" style="justify-content:center">Demo trực tiếp</div>
+      <h1 class="reveal" style="font-size:clamp(2.4rem,4.5vw,3.6rem);max-width:16ch">Chuyển sang Android Studio</h1>
+      <p class="lead reveal" style="text-align:center;margin:0 auto">Chạy ứng dụng trực tiếp trên máy ảo / thiết bị để trải nghiệm các luồng chính.</p>
+      <div class="demo-steps reveal">
+        <span class="demo-step">Tạo &amp; hoàn thành task</span>
+        <span class="demo-step">Lọc theo ngày / danh mục</span>
+        <span class="demo-step">Đính kèm ảnh</span>
+        <span class="demo-step">Nhắc nhở đúng giờ</span>
+        <span class="demo-step">Widget màn hình chính</span>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span>Live demo</span></div>
+  </section>
+
+  <!-- 17. KHÓ KHĂN & CÁCH GIẢI QUYẾT -->
+  <section class="slide">
+    <div class="kicker reveal">Khó khăn &amp; cách giải quyết</div>
+    <h2 class="reveal" style="margin-top:12px">Những vấn đề gặp phải</h2>
+    <div class="accent-bar reveal"></div>
+    <div class="split reveal">
+      <div class="ps-row">
+        <div class="ps-cell ps-problem"><div class="ps-k">Khó khăn</div><p>Android hạn chế chạy nền → khó <b>nhắc đúng giờ</b>.</p></div>
+        <div class="ps-cell ps-solution"><div class="ps-k">Giải pháp</div><p>Dùng <b>AlarmManager exact alarm</b> + xin quyền SCHEDULE_EXACT_ALARM, có dự phòng inexact.</p></div>
+      </div>
+      <div class="ps-row">
+        <div class="ps-cell ps-problem"><div class="ps-k">Khó khăn</div><p><b>Mất lịch nhắc</b> sau khi tắt / khởi động lại máy.</p></div>
+        <div class="ps-cell ps-solution"><div class="ps-k">Giải pháp</div><p><b>BroadcastReceiver</b> nghe BOOT_COMPLETED, <b>đặt lại toàn bộ</b> alarm từ DB.</p></div>
+      </div>
+      <div class="ps-row">
+        <div class="ps-cell ps-problem"><div class="ps-k">Khó khăn</div><p>Danh sách <b>nháy / cập nhật sai</b> khi tick hoàn thành.</p></div>
+        <div class="ps-cell ps-solution"><div class="ps-k">Giải pháp</div><p>Dùng <b>DiffUtil</b> + tạo <b>Task object mới</b> thay vì sửa tại chỗ.</p></div>
+      </div>
+      <div class="ps-row">
+        <div class="ps-cell ps-problem"><div class="ps-k">Khó khăn</div><p><b>Lệch phiên bản AGP</b> giữa các máy làm build lỗi.</p></div>
+        <div class="ps-cell ps-solution"><div class="ps-k">Giải pháp</div><p>Thống nhất qua <b>Version Catalog</b>, hạ <b>AGP về 8.13</b> tương thích.</p></div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 18. HƯỚNG PHÁT TRIỂN -->
+  <section class="slide">
+    <div class="kicker reveal">Hướng phát triển</div>
+    <h2 class="reveal" style="margin-top:12px">Kế hoạch tương lai</h2>
+    <div class="accent-bar reveal"></div>
+    <div class="grid reveal">
+      <div class="card"><div class="idx">01</div><h3>Đồng bộ đám mây</h3><p>Đăng nhập tài khoản, sao lưu &amp; đồng bộ dữ liệu nhiều thiết bị.</p></div>
+      <div class="card"><div class="idx">02</div><h3>Việc lặp lại</h3><p>Công việc định kỳ (hằng ngày / tuần / tháng) tự tạo lại.</p></div>
+      <div class="card"><div class="idx">03</div><h3>Độ ưu tiên</h3><p>Gắn mức ưu tiên, sắp xếp và tô màu theo tầm quan trọng.</p></div>
+      <div class="card"><div class="idx">04</div><h3>Thống kê năng suất</h3><p>Biểu đồ tiến độ, tỉ lệ hoàn thành theo ngày / danh mục.</p></div>
+      <div class="card"><div class="idx">05</div><h3>Giao diện tối</h3><p>Dark mode và tuỳ biến chủ đề màu.</p></div>
+      <div class="card"><div class="idx">06</div><h3>Đa ngôn ngữ</h3><p>Hỗ trợ tiếng Anh - tiếng Việt và mở rộng thêm.</p></div>
+    </div>
+    <div class="foot"><span class="brand">TodoList</span><span class="dots"></span></div>
+  </section>
+
+  <!-- 19. LỜI CẢM ƠN -->
+  <section class="slide dark">
+    <div class="grain"></div>
+    <div class="kicker reveal">Lời cảm ơn</div>
     <h1 class="reveal" style="max-width:18ch;margin-top:14px">Cảm ơn đã lắng nghe</h1>
     <div class="accent-bar reveal"></div>
     <p class="lead reveal">TodoList - quản lý công việc gọn nhẹ mà đầy đủ: task, danh mục, ảnh, nhắc nhở đúng giờ và widget màn hình chính.</p>
     <div class="tag-row reveal"><span class="tag"><i></i>Hỏi &amp; đáp</span></div>
+    <div class="team reveal">
+      <div class="team-head">Nhóm 6</div>
+      <div class="team-members">
+        <span class="member">Nguyễn Hoa Thanh Tùng</span>
+        <span class="member">Hà Mạnh Dũng</span>
+      </div>
+    </div>
     <div class="foot"><span class="brand">TodoList</span><span>Thuyết trình tính năng</span></div>
   </section>
 
 </div>
 
-<div class="counter" id="counter"><b>1</b> / 13</div>
+<div class="counter" id="counter"><b>1</b> / 19</div>
 <div class="nav-btns">
   <button onclick="go(-1)" aria-label="Trước">‹</button>
   <button onclick="go(1)" aria-label="Sau">›</button>
