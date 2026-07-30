@@ -3,9 +3,11 @@ package com.example.todolist.ui.settings;
 import android.Manifest;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +37,7 @@ public class SettingsFragment extends Fragment {
     private final ActivityResultLauncher<String> notifPermission =
         registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
             if (granted) postTestNotification();
-            else toast(getString(R.string.notif_permission_needed));
+            else onPermissionDenied();
         });
 
     /** Permission request triggered by turning the notifications switch on. */
@@ -46,7 +48,7 @@ public class SettingsFragment extends Fragment {
             } else {
                 NotificationPrefs.setEnabled(requireContext(), false);
                 setSwitchChecked(false);
-                toast(getString(R.string.notif_permission_needed));
+                onPermissionDenied();
             }
         });
 
@@ -90,6 +92,26 @@ public class SettingsFragment extends Fragment {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
             || ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS)
                 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    /**
+     * Called when a permission request is denied. If the system no longer shows the
+     * request dialog (permission was manually revoked in system settings → permanently
+     * denied), deep-link the user to the app's notification settings so they can re-enable.
+     */
+    private void onPermissionDenied() {
+        toast(getString(R.string.notif_permission_needed));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+            && !shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+            openNotificationSettings();
+        }
+    }
+
+    /** Open the app's notification settings screen so the user can grant permission. */
+    private void openNotificationSettings() {
+        Intent i = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+            .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().getPackageName());
+        startActivity(i);
     }
 
     private void onNotifToggle(boolean checked) {
