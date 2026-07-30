@@ -76,9 +76,9 @@ public class SettingsFragment extends Fragment {
         syncNotifSwitch();
     }
 
-    /** Reflect the stored toggle + current permission on the switch. */
+    /** Reflect the stored toggle + whether the OS currently allows notifications. */
     private void syncNotifSwitch() {
-        setSwitchChecked(NotificationPrefs.isEnabled(requireContext()) && hasNotifPermission());
+        setSwitchChecked(NotificationPrefs.isEnabled(requireContext()) && notificationsEnabled());
     }
 
     /** Set the switch state without triggering the toggle listener. */
@@ -88,7 +88,18 @@ public class SettingsFragment extends Fragment {
         b.switchNotif.setOnCheckedChangeListener(notifToggleListener);
     }
 
-    private boolean hasNotifPermission() {
+    /**
+     * True only when notifications are actually allowed by the OS. Unlike a raw
+     * POST_NOTIFICATIONS permission check, this also returns false when the user turns
+     * off notifications via the app's system notification settings — where the permission
+     * can stay "granted" while notifications are disabled.
+     */
+    private boolean notificationsEnabled() {
+        return NotificationManagerCompat.from(requireContext()).areNotificationsEnabled();
+    }
+
+    /** Whether the POST_NOTIFICATIONS runtime permission is granted (Android 13+). */
+    private boolean hasRuntimePermission() {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
             || ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS)
                 == PackageManager.PERMISSION_GRANTED;
@@ -115,15 +126,20 @@ public class SettingsFragment extends Fragment {
     }
 
     private void onNotifToggle(boolean checked) {
-        if (checked) {
-            if (!hasNotifPermission()) {
-                // Ask for permission; the launcher callback finalizes the state.
-                enableNotifPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
-                return;
-            }
-            NotificationPrefs.setEnabled(requireContext(), true);
-        } else {
+        if (!checked) {
             NotificationPrefs.setEnabled(requireContext(), false);
+            return;
+        }
+        if (notificationsEnabled()) {
+            NotificationPrefs.setEnabled(requireContext(), true);
+        } else if (!hasRuntimePermission()) {
+            // Permission missing → ask for it; the launcher callback finalizes the state.
+            enableNotifPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
+        } else {
+            // Permission granted but notifications disabled in system settings → send the
+            // user there to re-enable. Keep the switch off until they actually turn it on.
+            setSwitchChecked(false);
+            openNotificationSettings();
         }
     }
 
@@ -138,10 +154,14 @@ public class SettingsFragment extends Fragment {
     }
 
     private void onTestNotification() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-            && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS)
-                != PackageManager.PERMISSION_GRANTED) {
-            notifPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
+        if (!notificationsEnabled()) {
+            if (!hasRuntimePermission()) {
+                notifPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
+            } else {
+                // Permission granted but notifications disabled in system settings.
+                toast(getString(R.string.notif_permission_needed));
+                openNotificationSettings();
+            }
             return;
         }
         postTestNotification();
